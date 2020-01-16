@@ -7,7 +7,7 @@
 
 ```julia
 import Pkg
-Pkg.add(Pkg.Types.PackageSpec(url = "https://github.com/bcbi/StopgapContainers.jl", rev = "master"))
+Pkg.add(Pkg.PackageSpec(url = "https://github.com/bcbi/StopgapContainers.jl", rev = "master"))
 ```
 
 ## Examples
