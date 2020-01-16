@@ -4,9 +4,8 @@ function _generate_packagecompiler_content(config::Config)
     packagecompilerx_installation_command = config.packagecompilerx_installation_command
     return string("import Pkg\n",
                   "stdlib_uuids = collect(keys(Pkg.Types.stdlib()))\n",
-                  "deps = Pkg.dependencies()\n",
                   "pkgnames = Vector{String}(undef, 0)\n",
-                  "for (uuid, info) in deps\n",
+                  "for (uuid, info) in Pkg.dependencies()\n",
                   "if !(uuid in stdlib_uuids)\n",
                   "push!(pkgnames, info.name)\n",
                   "end\n",

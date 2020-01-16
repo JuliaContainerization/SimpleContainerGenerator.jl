@@ -10,16 +10,26 @@ import Pkg
 Pkg.add(Pkg.Types.PackageSpec(url = "https://github.com/bcbi/StopgapContainers.jl", rev = "master"))
 ```
 
-## Example usage
+## Examples
+
+### Example 1
 
 ```julia
-julia> import Pkg: PackageSpec
+julia> using StopgapContainers
 
-julia> import StopgapContainers: stopgap_docker
+julia> stopgap_docker("Crayons")
 
-julia> pkgs = [PackageSpec(name = "PredictMD", rev = "master"),
-               PackageSpec(name = "PredictMDExtra", rev = "master"),
-               PackageSpec(name = "PredictMDFull", rev = "master")]
+julia> run(`docker build -t my_docker_image_name .`)
+```
+
+### Example 2
+
+```julia
+julia> using StopgapContainers
+
+julia> pkgs = [(name = "PredictMD",      rev = "master"),
+               (name = "PredictMDExtra", rev = "master"),
+               (name = "PredictMDFull",  rev = "master")]
 
 julia> stopgap_docker(pkgs)
 

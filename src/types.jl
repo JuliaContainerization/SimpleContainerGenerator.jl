@@ -1,19 +1,30 @@
 struct Config
     julia_version::String
     apt::Vector{String}
-    pkgs::Vector{Pkg.Types.PackageSpec}
-    notest::Vector{String}
+    pkgs::Vector{Dict{Symbol,String}}
+    no_test::Vector{String}
     packagecompilerx_installation_command::String
 end
 
-function Config(pkgs::AbstractVector{<:Pkg.Types.PackageSpec} = Pkg.Types.PackageSpec[];
-                notest = String[],
-                julia_version::AbstractString = _default_julia_version,
-                apt::AbstractVector{<:AbstractString} = _default_apt,
-                packagecompilerx_installation_command::String = _default_packagecompilerx_installation_command)
+function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} =
+                    Vector{Dict{Symbol,String}}(undef, 0);
+                no_test =
+                    String[],
+                julia_version::AbstractString =
+                    _default_julia_version,
+                default_apt::AbstractVector{<:AbstractString} =
+                    _default_apt,
+                additional_apt::AbstractVector{<:AbstractString} =
+                    String[],
+                packagecompilerx_installation_command::String =
+                    _default_packagecompilerx_installation_command)
+    apt = Vector{String}(undef, 0)
+    append!(apt, default_apt)
+    append!(apt, additional_apt)
+    unique!(apt)
     return Config(julia_version,
                   apt,
                   pkgs,
-                  notest,
+                  no_test,
                   packagecompilerx_installation_command)
 end
