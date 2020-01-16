@@ -1,13 +1,13 @@
 function _generate_no_sysimage_stopgap_julia_script_content(config::Config = Config())
     return string("export JULIA_DEPOT_PATH=\"/opt/stopgapcontainers/julia_depot\"\n",
                   "export JULIA_PROJECT=\"/opt/stopgapcontainers/julia_project\"\n",
-                  "/usr/bin/julia \"\$@\"\n")
+                  "/opt/bin/julia \"\$@\"\n")
 end
 
 function _generate_stopgap_julia_script_content(config::Config = Config())
     return string("export JULIA_DEPOT_PATH=\"/opt/stopgapcontainers/julia_depot\"\n",
                   "export JULIA_PROJECT=\"/opt/stopgapcontainers/julia_project\"\n",
-                  "/usr/bin/julia -J/opt/stopgapcontainers/sysimage/StopgapContainersSysimage.so \"\$@\"\n")
+                  "/opt/bin/julia -J/opt/stopgapcontainers/sysimage/StopgapContainersSysimage.so \"\$@\"\n")
 end
 
 function _generate_global_startup_file_content(config::Config = Config())
