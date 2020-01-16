@@ -29,7 +29,7 @@ import Random: randstring
     end
     if get(ENV, "STOPGAPCONTAINERS_TESTS", "") == "all"
         @testset "docker build" begin
-            test_cases = [[Dict(:name => "Crayons")]] => ["import Crayons", "using Crayons", "import Pkg; Pkg.test(string(:Crayons))"]]
+            test_cases = [[Dict(:name => "Crayons")] => ["import Crayons", "using Crayons", "import Pkg; Pkg.test(string(:Crayons))"]]
             for (pkgs, test_eval_exprs) in test_cases
                 StopgapContainers.with_temp_dir() do tmp_dir
                     @test !isfile("Dockerfile")
