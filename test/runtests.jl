@@ -29,19 +29,21 @@ import Random: randstring
     end
     if get(ENV, "STOPGAPCONTAINERS_TESTS", "") == "all"
         @testset "docker build" begin
-            test_cases = ["Crayons" => "using Crayons"]
-            for (pkgs, test_eval_expr) in test_cases
+            test_cases = [[Dict(:name => "Crayons")] => ["import Crayons", "using Crayons", "import Pkg; Pkg.test(string(:Crayons))"]]
+            for (pkgs, test_eval_exprs) in test_cases
                 StopgapContainers.with_temp_dir() do tmp_dir
                     @test !isfile("Dockerfile")
                     stopgap_docker(pkgs)
                     @test isfile("Dockerfile")
                     image = lowercase("test_stopgapcontainers_$(randstring(16))")
-                    p1 = run(`docker build -t $(image) .`)
-                    wait(p1)
-                    @test success(p1)
-                    p2 = run(`docker run $(image) "/usr/bin/stopgap_julia -e '$(test_eval_expr)'"`)
-                    wait(p2)
-                    @test success(p2)
+                    p_build = run(`docker build -t $(image) .`)
+                    wait(p_build)
+                    @test success(p_build)
+                    for test_eval_expr in test_eval_exprs
+                        p_test = run(`docker run $(image) "/usr/bin/stopgap_julia -e '$(test_eval_expr)'"`)
+                        wait(p_test)
+                        @test success(p_test)
+                    end
                 end
             end
         end
