@@ -1,34 +1,28 @@
 import Pkg
 
-function _to_string(pkg::Pkg.Types.PackageSpec)
+function _to_packagespec_string(pkg::Dict{Symbol, String})
     kwargs_string = ""
-    for field in [:name, :path, :repo, :uuid, :version]
-        value = getproperty(pkg, field)
-        if value != nothing && value != Pkg.Types.GitRepo(nothing, nothing) && value != Pkg.Types.VersionSpec("*")
-            kwargs_string *= "$(field) = $(repr(value)), "
-        end
+    for (key, value) in pkg
+        kwargs_string *= "$(key) = \"$(value)\", "
     end
     return "Pkg.PackageSpec(; $(kwargs_string))"
 end
 
-function _to_string(pkgs::AbstractVector{<:Pkg.Types.PackageSpec})
+function _to_packagespec_string(pkgs::AbstractVector{<:AbstractDict})
     num_pkgs = length(pkgs)
     pkg_strings = Vector{String}(undef, num_pkgs)
     for i = 1:num_pkgs
-        pkg_strings[i] = _to_string(pkgs[i])
+        pkg_strings[i] = _to_packagespec_string(pkgs[i])
     end
     return "Pkg.Types.PackageSpec[$(join(pkg_strings, ", "))]"
 end
 
 function _generate_install_packages_content(config::Config)
     pkgs = config.pkgs
-    pkgs_string = _to_string(pkgs)
+    pkgs_string = _to_packagespec_string(pkgs)
     return string("import Pkg\n",
-                  "const VersionSpec = Pkg.Types.VersionSpec\n",
-                  "pkgs = $(pkgs_string)\n",
-                  "Pkg.add(pkgs)\n",
-                  "deps = Pkg.dependencies()\n",
-                  "for (uuid, info) in deps\n",
+                  "Pkg.add($(pkgs_string))\n",
+                  "for (uuid, info) in Pkg.dependencies()\n",
                   "Pkg.add(info.name)\n",
                   "end\n")
 end

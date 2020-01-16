@@ -1,6 +1,7 @@
 module StopgapContainers
 
 import Pkg
+import Random
 
 export stopgap_docker
 

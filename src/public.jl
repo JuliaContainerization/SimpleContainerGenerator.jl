@@ -1,31 +1,34 @@
 import Pkg
 
-function stopgap_docker(pkg_name::AbstractString,
-                           output_directory::AbstractString = pwd();
-                           kwargs...)
-    return stopgap_docker([pkg_name], output_directory; kwargs...)
+function stopgap_docker(pkg::Union{AbstractDict{<:Symbol, <:AbstractString}, AbstractString, NamedTuple},
+                        output_directory::AbstractString = pwd();
+                        kwargs...)
+    return stopgap_docker([pkg], output_directory; kwargs...)
 end
 
 function stopgap_docker(pkg_names::AbstractVector{<:AbstractString},
-                           output_directory::AbstractString = pwd();
-                           kwargs...)
+                        output_directory::AbstractString = pwd();
+                        kwargs...)
     num_pkgs = length(pkg_names)
-    pkgs = Vector{Pkg.Types.PackageSpec}(undef, num_pkgs)
+    Dict{Symbol, String}
+    pkgs = Vector{Dict{Symbol, String}}(undef, num_pkgs)
     for i = 1:num_pkgs
-        pkgs[i] = Pkg.PackageSpec(name = pkg_names[i])
+        pkgs[i] = Dict(:name => pkg_names[i])
     end
     return stopgap_docker(pkgs, output_directory; kwargs...)
 end
 
-function stopgap_docker(pkg::Pkg.Types.PackageSpec,
-                           output_directory::AbstractString = pwd();
-                           kwargs...)
-    return stopgap_docker([pkg], output_directory; kwargs...)
+function stopgap_docker(pkg_tuples::AbstractVector{<:NamedTuple},
+                        output_directory::AbstractString = pwd();
+                        kwargs...)
+    pkgs = Dict.(pairs.(pkg_tuples))
+    println(typeof(pkgs))
+    return stopgap_docker(pkgs, output_directory; kwargs...)
 end
 
-function stopgap_docker(pkgs::AbstractVector{<:Pkg.Types.PackageSpec},
-                           output_directory::AbstractString = pwd();
-                           kwargs...)
+function stopgap_docker(pkgs::AbstractVector{<:AbstractDict},
+                        output_directory::AbstractString = pwd();
+                        kwargs...)
     config = Config(pkgs; kwargs...)
     return stopgap_docker(config, output_directory; kwargs...)
 end
