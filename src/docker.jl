@@ -84,8 +84,8 @@ function _generate_dockerfile_content(config::Config)
     section_14_try_sysimage = "RUN /usr/bin/stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
     penultimate_section_fix_permissions = string("RUN find /opt -type d -print0 | xargs -0 chmod a+rx\n",
                                                  "RUN find /opt -type f -print0 | xargs -0 chmod a+r\n",
-                                                 # "RUN chmod a+rx /opt/bin/julia",
-                                                 "RUN chmod a+rx /usr/bin/stopgap_julia",
+                                                 "RUN chmod a+rx /opt/bin/julia",
+                                                 " && chmod a+rx /usr/bin/stopgap_julia",
                                                  " && chmod a+rx /usr/bin/no_sysimage_stopgap_julia\n")
     final_section_entrypoint = "ENTRYPOINT [\"/bin/bash\", \"-c\"]\n"
     return string(section_01_from,
