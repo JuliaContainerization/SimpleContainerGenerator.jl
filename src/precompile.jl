@@ -9,9 +9,8 @@ function _generate_precompile_content(config::Config)
         end
     end
     return string("import Pkg\n",
-                  "pkg_names_to_test = $(pkg_names_to_test)\n",
                   "for (uuid, info) in Pkg.dependencies()\n",
-                  "if info.name in pkg_names_to_test\n",
+                  "if info.name in $(pkg_names_to_test)\n",
                   "include(joinpath(info.source, \"test\", \"runtests.jl\"))\n",
                   "end\n",
                   "end\n")
