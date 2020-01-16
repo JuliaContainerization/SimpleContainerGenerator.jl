@@ -27,8 +27,8 @@ import Random: randstring
         @test StopgapContainers._get_julia_url("nightly") == "https://julialangnightlies-s3.julialang.org/bin/linux/x64/julia-latest-linux64.tar.gz"
         @test StopgapContainers._get_julia_url("1.3") == "https://julialang-s3.julialang.org/bin/linux/x64/1.3/julia-1.3-latest-linux-x86_64.tar.gz"
     end
-    if get(ENV, "STOPGAP_CONTAINERS_TESTS", "") == "all"
-        @testset "docker build" begin
+    if get(ENV, "STOPGAPCONTAINERS_TESTS", "") == "all"
+        @testset "integration tests: `docker build`" begin
             test_cases = ["Crayons" => "using Crayons"]
             for (pkgs, test_eval_expr) in test_cases
                 StopgapContainers.with_temp_dir() do tmp_dir
