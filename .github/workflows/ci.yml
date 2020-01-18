@@ -28,3 +28,5 @@ jobs:
         env:
           STOPGAPCONTAINERS_TESTS: 'all'
       - uses: julia-actions/julia-uploadcodecov@latest
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
