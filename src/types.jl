@@ -29,5 +29,6 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                   apt,
                   pkgs,
                   no_test,
-                  packagecompilerx_installation_command)
+                  packagecompilerx_installation_command,
+                  precompile_env_vars)
 end
