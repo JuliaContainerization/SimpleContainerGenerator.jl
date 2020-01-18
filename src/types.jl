@@ -4,6 +4,7 @@ struct Config
     pkgs::Vector{Dict{Symbol,String}}
     no_test::Vector{String}
     packagecompilerx_installation_command::String
+    precompile_env_vars::Dict{String, String}
 end
 
 function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} =
@@ -17,7 +18,9 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                 additional_apt::AbstractVector{<:AbstractString} =
                     String[],
                 packagecompilerx_installation_command::String =
-                    _default_packagecompilerx_installation_command)
+                    _default_packagecompilerx_installation_command,
+                precompile_env_vars =
+                    _default_precompile_env_vars)
     apt = Vector{String}(undef, 0)
     append!(apt, default_apt)
     append!(apt, additional_apt)
@@ -26,5 +29,6 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                   apt,
                   pkgs,
                   no_test,
-                  packagecompilerx_installation_command)
+                  packagecompilerx_installation_command,
+                  precompile_env_vars)
 end

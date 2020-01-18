@@ -1,6 +1,13 @@
 const _default_packagecompilerx_installation_command = "add https://github.com/KristofferC/PackageCompilerX.jl#master"
 
+const _future_packagecompilerx_installation_command = "add PackageCompilerX"
+
 const _default_julia_version = "nightly"
+
+const _default_precompile_env_vars = Dict{String, String}("PREDICTMD_TEST_GROUP" => "all",
+                                                          "PREDICTMD_TEST_PLOTS" => "true")
+
+const _predictmd_apt = String[]
 
 const _default_apt = String["apt-utils",
                             "build-essential",
@@ -32,7 +39,6 @@ const _default_apt = String["apt-utils",
                             "libpgf6-dbg",
                             "libpng-dev",
                             "libssl-dev",
-                            # "libssl1.0-dev",
                             "libxss1",
                             "libxtst6",
                             "locales",
