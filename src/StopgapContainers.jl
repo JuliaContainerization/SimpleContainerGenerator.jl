@@ -1,6 +1,6 @@
 module StopgapContainers
 
-import PackageCompilerX
+# import PackageCompilerX
 import Pkg
 import Random
 
