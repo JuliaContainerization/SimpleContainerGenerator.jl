@@ -3,12 +3,14 @@
 *.jl.mem
 .DS_Store
 /dev/
-/Manifest.toml
 
-/Dockerfile
-/install_packages.jl
-/packagecompiler.jl
-/precompile.jl
-/startup.jl
-/stopgap_julia.sh
-/no_sysimage_stopgap_julia.sh
+Manifest.toml
+
+Dockerfile
+stopgapcontainers_files/
+install_packages.jl
+packagecompiler.jl
+precompile.jl
+startup.jl
+stopgap_julia.sh
+no_sysimage_stopgap_julia.sh

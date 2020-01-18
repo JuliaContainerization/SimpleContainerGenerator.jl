@@ -58,25 +58,25 @@ function _generate_dockerfile_content(config::Config)
                                           "mkdir -p /opt/stopgapcontainers/sysimage\n",)
     section_08_startup = string("RUN rm -rf /opt/etc/julia/startup.jl && ",
                              "mkdir -p /opt/etc/julia\n",
-                             "COPY startup.jl /opt/etc/julia/startup.jl\n",
+                             "COPY stopgapcontainers_files/startup.jl /opt/etc/julia/startup.jl\n",
                              "RUN chmod 444 /opt/etc/julia/startup.jl\n")
     section_09_stopgap_julia = string("RUN rm -rf /usr/bin/stopgap_julia && ",
                                    "mkdir -p /usr/bin\n",
-                                   "COPY stopgap_julia.sh /usr/bin/stopgap_julia\n",
-                                   "COPY no_sysimage_stopgap_julia.sh /usr/bin/no_sysimage_stopgap_julia\n",
+                                   "COPY stopgapcontainers_files/stopgap_julia.sh /usr/bin/stopgap_julia\n",
+                                   "COPY stopgapcontainers_files/no_sysimage_stopgap_julia.sh /usr/bin/no_sysimage_stopgap_julia\n",
                                    "RUN chmod 555 /usr/bin/stopgap_julia\n",
                                    "RUN chmod 555 /usr/bin/no_sysimage_stopgap_julia\n")
     section_10_install_packages = string("RUN rm -rf /opt/stopgapcontainers/install_packages.jl && ",
                                       "mkdir -p /opt/stopgapcontainers\n",
-                                      "COPY install_packages.jl /opt/stopgapcontainers/install_packages.jl\n",
+                                      "COPY stopgapcontainers_files/install_packages.jl /opt/stopgapcontainers/install_packages.jl\n",
                                       "RUN cd /tmp && ",
                                       "JULIA_DEBUG=all STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/install_packages.jl\n")
     section_11_precompile = string("RUN rm -rf /opt/stopgapcontainers/precompile.jl && ",
                                 "mkdir -p /opt/stopgapcontainers\n",
-                                "COPY precompile.jl /opt/stopgapcontainers/precompile.jl\n",)
+                                "COPY stopgapcontainers_files/precompile.jl /opt/stopgapcontainers/precompile.jl\n",)
     section_12_packagecompiler = string("RUN rm -rf /opt/stopgapcontainers/packagecompiler.jl && ",
                                      "mkdir -p /opt/stopgapcontainers\n",
-                                     "COPY packagecompiler.jl /opt/stopgapcontainers/packagecompiler.jl\n",
+                                     "COPY stopgapcontainers_files/packagecompiler.jl /opt/stopgapcontainers/packagecompiler.jl\n",
                                      "RUN cd /tmp && ",
                                      "JULIA_DEBUG=all STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/packagecompiler.jl\n")
     section_13_try_no_sysimage = "RUN JULIA_DEBUG=all /usr/bin/no_sysimage_stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
@@ -114,15 +114,15 @@ end
 
 function _write_all_docker_files(config::Config, directory::AbstractString)
     files = Dict()
-    files["Dockerfile"] = _generate_dockerfile_content(config)
-    files["startup.jl"] = _generate_global_startup_file_content(config)
-    files["stopgap_julia.sh"] = _generate_stopgap_julia_script_content(config)
-    files["no_sysimage_stopgap_julia.sh"] = _generate_no_sysimage_stopgap_julia_script_content(config)
-    files["install_packages.jl"] = _generate_install_packages_content(config)
-    files["precompile.jl"] = _generate_precompile_content(config)
-    files["packagecompiler.jl"] = _generate_packagecompiler_content(config)
-    for (filename, filecontent) in files
-        fullfilepath = joinpath(directory, filename)
+    files[["Dockerfile"]] = _generate_dockerfile_content(config)
+    files[["stopgapcontainers_files", "startup.jl"]] = _generate_global_startup_file_content(config)
+    files[["stopgapcontainers_files", "stopgap_julia.sh"]] = _generate_stopgap_julia_script_content(config)
+    files[["stopgapcontainers_files", "no_sysimage_stopgap_julia.sh"]] = _generate_no_sysimage_stopgap_julia_script_content(config)
+    files[["stopgapcontainers_files", "install_packages.jl"]] = _generate_install_packages_content(config)
+    files[["stopgapcontainers_files", "precompile.jl"]] = _generate_precompile_content(config)
+    files[["stopgapcontainers_files", "packagecompiler.jl"]] = _generate_packagecompiler_content(config)
+    for (parts, filecontent) in files
+        fullfilepath = joinpath(directory, parts...)
         rm(fullfilepath; force = true, recursive = true)
         mkpath(dirname(fullfilepath))
         open(fullfilepath, "w") do io
