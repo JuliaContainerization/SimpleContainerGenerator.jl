@@ -71,7 +71,7 @@ function _generate_dockerfile_content(config::Config)
                                       "mkdir -p /opt/stopgapcontainers\n",
                                       "COPY install_packages.jl /opt/stopgapcontainers/install_packages.jl\n",
                                       "RUN cd /tmp && ",
-                                      "STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/install_packages.jl\n")
+                                      "JULIA_DEBUG=all STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/install_packages.jl\n")
     section_11_precompile = string("RUN rm -rf /opt/stopgapcontainers/precompile.jl && ",
                                 "mkdir -p /opt/stopgapcontainers\n",
                                 "COPY precompile.jl /opt/stopgapcontainers/precompile.jl\n",)
@@ -79,9 +79,9 @@ function _generate_dockerfile_content(config::Config)
                                      "mkdir -p /opt/stopgapcontainers\n",
                                      "COPY packagecompiler.jl /opt/stopgapcontainers/packagecompiler.jl\n",
                                      "RUN cd /tmp && ",
-                                     "STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/packagecompiler.jl\n")
-    section_13_try_no_sysimage = "RUN /usr/bin/no_sysimage_stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
-    section_14_try_sysimage = "RUN /usr/bin/stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
+                                     "JULIA_DEBUG=all STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/packagecompiler.jl\n")
+    section_13_try_no_sysimage = "RUN JULIA_DEBUG=all /usr/bin/no_sysimage_stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
+    section_14_try_sysimage = "RUN JULIA_DEBUG=all /usr/bin/stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
     penultimate_section_fix_permissions = string("RUN find /opt -type d -print0 | xargs -0 chmod a+rx\n",
                                                  "RUN find /opt -type f -print0 | xargs -0 chmod a+r\n",
                                                  "RUN chmod a+rx /opt/bin/julia",

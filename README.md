@@ -19,7 +19,7 @@ julia> using StopgapContainers
 
 julia> stopgap_docker("Crayons")
 
-julia> run(`docker build -t my_docker_image .`)
+julia> run(`docker build -t my_docker_username/my_image_name .`)
 ```
 
 ### Example 2
@@ -33,5 +33,37 @@ julia> pkgs = [(name = "PredictMD",      rev = "master"),
 
 julia> stopgap_docker(pkgs)
 
-julia> run(`docker build -t my_docker_image .`)
+julia> run(`docker build -t my_docker_username/my_image_name .`)
+```
+
+## Useful Docker commands
+
+Build an image from a given `Dockerfile`:
+```bash
+docker build -t my_docker_username/my_image_name .
+```
+
+Start a new container from a given image and enter a `bash` session:
+```bash
+docker run --name my_container_name -it my_docker_username/my_image_name /bin/bash
+```
+
+Reenter the same container after exiting it:
+```bash
+docker start -ai my_container_name
+```
+
+Delete the container:
+```bash
+docker container rm -f my_container_name
+```
+
+Login to Docker Hub:
+```bash
+docker login
+```
+
+Push an image to Docker Hub:
+```bash
+docker push my_docker_username/my_image_name
 ```

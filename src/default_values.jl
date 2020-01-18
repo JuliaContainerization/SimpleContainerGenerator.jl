@@ -2,6 +2,8 @@ const _default_packagecompilerx_installation_command = "add https://github.com/K
 
 const _default_julia_version = "nightly"
 
+const _predictmd_apt = String[]
+
 const _default_apt = String["apt-utils",
                             "build-essential",
                             "bzip2",
