@@ -52,8 +52,7 @@ function _generate_dockerfile_content(config::Config)
                                    "rm -rf /tmp/stopgap-build-depot && ",
                                    "mkdir -p /tmp/stopgap-build-depot && ",
                                    "JULIA_DEPOT_PATH=/tmp/stopgap-build-depot /opt/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)' && ",
-                                   "rm -rf /opt/share/julia/compiled &&",
-                                   "mkdir -p /opt/share/julia/compiled\n")
+                                   "rm -rf /opt/share/julia/compiled\n")
     section_07_make_opt_directories = string("RUN mkdir -p /opt/stopgapcontainers/julia_project && ",
                                           "mkdir -p /opt/stopgapcontainers/julia_depot &&",
                                           "mkdir -p /opt/stopgapcontainers/sysimage\n",)
@@ -82,11 +81,14 @@ function _generate_dockerfile_content(config::Config)
                                      "JULIA_DEBUG=all STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/packagecompiler.jl\n")
     section_13_try_no_sysimage = "RUN JULIA_DEBUG=all /usr/bin/no_sysimage_stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
     section_14_try_sysimage = "RUN JULIA_DEBUG=all /usr/bin/stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
+    section_15_delete_all_compiled_cache = string("RUN rm -rf /opt/share/julia/compiled && ",
+                                                  "rm -rf /opt/stopgapcontainers/julia_depot/compiled  && ",
+                                                  "rm -rf /opt/stopgapcontainers/julia_project/compiled\n")
     penultimate_section_fix_permissions = string("RUN find /opt -type d -print0 | xargs -0 chmod a+rx\n",
                                                  "RUN find /opt -type f -print0 | xargs -0 chmod a+r\n",
-                                                 "RUN chmod a+rx /opt/bin/julia",
-                                                 " && chmod a+rx /usr/bin/stopgap_julia",
-                                                 " && chmod a+rx /usr/bin/no_sysimage_stopgap_julia\n")
+                                                 "RUN chmod a+rx /opt/bin/julia && ",
+                                                 "chmod a+rx /usr/bin/stopgap_julia && ",
+                                                 "chmod a+rx /usr/bin/no_sysimage_stopgap_julia\n")
     final_section_entrypoint = "ENTRYPOINT [\"/bin/bash\", \"-c\"]\n"
     return string(section_01_from,
                   section_02_apt,
@@ -102,6 +104,7 @@ function _generate_dockerfile_content(config::Config)
                   section_12_packagecompiler,
                   section_13_try_no_sysimage,
                   section_14_try_sysimage,
+                  section_15_delete_all_compiled_cache,
                   penultimate_section_fix_permissions,
                   final_section_entrypoint)
 end
