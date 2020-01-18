@@ -38,5 +38,5 @@ function stopgap_docker(config::Config,
     @info("I have generated the Dockerfile and the other necessary files.")
     @info("Now `cd` to `$(output_directory)` and run:")
     @info("`docker build -t my_docker_username/my_image_name .`")
-    return config
+    return output_directory
 end
