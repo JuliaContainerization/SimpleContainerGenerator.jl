@@ -19,7 +19,7 @@ julia> using StopgapContainers
 
 julia> stopgap_docker("Crayons")
 
-julia> run(`docker build -t my_docker_image_name .`)
+julia> run(`docker build -t my_docker_image .`)
 ```
 
 ### Example 2
@@ -33,5 +33,5 @@ julia> pkgs = [(name = "PredictMD",      rev = "master"),
 
 julia> stopgap_docker(pkgs)
 
-julia> run(`docker build -t my_docker_image_name .`)
+julia> run(`docker build -t my_docker_image .`)
 ```
