@@ -6,6 +6,8 @@ const _default_julia_version = "nightly"
 
 const _default_julia_cpu_target = "generic"
 
+const _recommended_julia_cpu_target = "generic"
+
 const _default_precompile_env_vars = Dict{String, String}("PREDICTMD_TEST_GROUP" => "all",
                                                           "PREDICTMD_TEST_PLOTS" => "true")
 
