@@ -27,7 +27,7 @@ jobs:
       - uses: julia-actions/julia-runtest@latest
       - run: julia --project -e 'using StopgapContainers; pkgs = [(name = "PredictMD", rev = "master"), (name = "PredictMDExtra", rev = "master"), (name = "PredictMDFull", rev = "master")]; stopgap_docker(pkgs; julia_version = "nightly")'
       - run: docker build -t dilumaluthge/stopgap_predictmd .
-      - run: docker run dilumaluthge/stopgap_predictmd "PREDICTMD_TEST_GROUP=all PREDICTMD_TEST_PLOTS=true /usr/bin/stopgap_julia -e 'import Pkg; Pkg.test(string(:PredictMDExtra)); Pkg.test(string(:PredictMDFull)); Pkg.test(string(:PredictMD))'"
+      - run: docker run dilumaluthge/stopgap_predictmd "JULIA_DEBUG=all PREDICTMD_TEST_GROUP=all PREDICTMD_TEST_PLOTS=true /usr/bin/stopgap_julia -e 'import Pkg; Pkg.test(string(:PredictMDExtra)); Pkg.test(string(:PredictMDFull)); Pkg.test(string(:PredictMD))'"
       - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
