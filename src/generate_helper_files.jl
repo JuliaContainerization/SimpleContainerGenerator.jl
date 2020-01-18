@@ -1,13 +1,30 @@
-function _generate_no_sysimage_stopgap_julia_script_content(config::Config = Config())
-    return string("export JULIA_DEPOT_PATH=\"/opt/stopgapcontainers/julia_depot\"\n",
-                  "export JULIA_PROJECT=\"/opt/stopgapcontainers/julia_project\"\n",
-                  "/opt/bin/julia \"\$@\"\n")
+function _generate_julia_command(use_sysimage::Bool)
+    if use_sysimage
+        return "/opt/bin/julia -J/opt/stopgapcontainers/sysimage/StopgapContainersSysimage.so"
+    else
+        return "/opt/bin/julia"
+    end
 end
 
-function _generate_stopgap_julia_script_content(config::Config = Config())
-    return string("export JULIA_DEPOT_PATH=\"/opt/stopgapcontainers/julia_depot\"\n",
+function _generate_do_not_use_sysimage_stopgap_julia_script_content(config::Config = Config())
+    return _generate_stopgap_julia_script_content(false, config)
+end
+
+function _generate_use_sysimage_stopgap_julia_script_content(config::Config = Config())
+    return _generate_stopgap_julia_script_content(true, config)
+end
+
+function _generate_stopgap_julia_script_content(use_sysimage::Bool, config::Config = Config())
+    julia_command = _generate_julia_command(use_sysimage)
+    wrapper_script_env_vars = config.wrapper_script_env_vars
+    set_wrapper_script_env_vars_string = ""
+    for (name, value) in wrapper_script_env_vars
+        set_wrapper_script_env_vars_string *= "export $(name)=\"$(value)\"\n"
+    end
+    return string("$(set_wrapper_script_env_vars_string)",
+                  "export JULIA_DEPOT_PATH=\"/opt/stopgapcontainers/julia_depot\"\n",
                   "export JULIA_PROJECT=\"/opt/stopgapcontainers/julia_project\"\n",
-                  "/opt/bin/julia -J/opt/stopgapcontainers/sysimage/StopgapContainersSysimage.so \"\$@\"\n")
+                  "$(julia_command) \"\$@\"\n")
 end
 
 function _generate_global_startup_file_content(config::Config = Config())
