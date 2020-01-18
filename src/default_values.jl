@@ -11,6 +11,9 @@ const _recommended_julia_cpu_target = "generic"
 const _default_precompile_env_vars = Dict{String, String}("PREDICTMD_TEST_GROUP" => "all",
                                                           "PREDICTMD_TEST_PLOTS" => "true")
 
+const _default_wrapper_script_env_vars = Dict{String, String}("PREDICTMD_TEST_GROUP" => "all",
+                                                              "PREDICTMD_TEST_PLOTS" => "true")
+
 const _predictmd_apt = String[]
 
 const _default_apt = String["apt-utils",
