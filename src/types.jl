@@ -5,6 +5,7 @@ struct Config
     no_test::Vector{String}
     packagecompilerx_installation_command::String
     precompile_env_vars::Dict{String, String}
+    julia_cpu_target::String
 end
 
 function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} =
@@ -20,7 +21,9 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                 packagecompilerx_installation_command::String =
                     _default_packagecompilerx_installation_command,
                 precompile_env_vars =
-                    _default_precompile_env_vars)
+                    _default_precompile_env_vars,
+                julia_cpu_target =
+                    _default_julia_cpu_target)
     apt = Vector{String}(undef, 0)
     append!(apt, default_apt)
     append!(apt, additional_apt)
@@ -30,5 +33,6 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                   pkgs,
                   no_test,
                   packagecompilerx_installation_command,
-                  precompile_env_vars)
+                  precompile_env_vars,
+                  julia_cpu_target)
 end
