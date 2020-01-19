@@ -45,51 +45,27 @@ function _generate_install_packages_content(config::Config)
                   "if haskey(project, \"deps\")\n",
                   "project_deps = project[\"deps\"]\n",
                   "for entry in project_deps\n",
-                          
                   "Pkg.add(entry)\n",
-                              
                   "end\n",
-                          
                   "end\n",
-                      
                   "if haskey(project, \"extras\")\n",
-                      
                   "project_extras = project[\"extras\"]\n",
-                          
                   "for entry in project_extras\n",
-                          
                   "Pkg.add(entry)\n",
-                              
                   "end\n",
-                          
                   "end\n",
-                      
                   "end\n",
-                  
                   "if ispath(test_project_file)\n",
-                  
                   "test_project = Pkg.TOML.parsefile(test_project_file)\n",
-                      
                   "if haskey(test_project, \"deps\")\n",
-                      
                   "test_project_deps = project[\"deps\"]\n",
-                          
                   "for entry in test_project_deps\n",
-                          
                   "Pkg.add(entry)\n",
-                              
                   "end\n",
-                          
                   "end\n",
-                      
                   "end\n",
-                  
                   "end\n",
-    
-    
                   "for (uuid, info) in Pkg.dependencies()\n",
                   "Pkg.add(info.name)\n",
-                  "end\n", 
-    
-    )
+                  "end\n")
 end
