@@ -1,4 +1,4 @@
-module StopgapContainers
+module SimpleContainerGenerator
 
 # import PackageCompilerX
 import Pkg

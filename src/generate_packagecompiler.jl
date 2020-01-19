@@ -18,6 +18,6 @@ function _generate_packagecompiler_content(config::Config)
                   "pkgnames_symbols; ",
                   "cpu_target = \"$(julia_cpu_target)\", ",
                   "precompile_execution_file=\"/opt/stopgapcontainers/precompile.jl\", ",
-                  "sysimage_path = \"/opt/stopgapcontainers/sysimage/StopgapContainersSysimage.so\"",
+                  "sysimage_path = \"/opt/stopgapcontainers/sysimage/SimpleContainerGeneratorSysimage.so\"",
                   ")")
 end

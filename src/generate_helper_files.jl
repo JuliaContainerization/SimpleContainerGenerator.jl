@@ -1,6 +1,6 @@
 function _generate_julia_command(use_sysimage::Bool)
     if use_sysimage
-        return "/opt/bin/julia -J/opt/stopgapcontainers/sysimage/StopgapContainersSysimage.so"
+        return "/opt/bin/julia -J/opt/stopgapcontainers/sysimage/SimpleContainerGeneratorSysimage.so"
     else
         return "/opt/bin/julia"
     end
