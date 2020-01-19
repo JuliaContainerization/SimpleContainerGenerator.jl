@@ -66,6 +66,7 @@ function _generate_install_packages_content(config::Config)
                   "end\n",
                   "end\n",
                   "end\n",
+                  "end\n",
                   "for (uuid, info) in Pkg.dependencies()\n",
                   "Pkg.add(info.name)\n",
                   "end\n")
