@@ -12,6 +12,8 @@ jobs:
     strategy:
       matrix:
         version:
+          # - '1.4'
+          - '1'
           - 'nightly'
         os:
           - ubuntu-latest
@@ -27,4 +29,3 @@ jobs:
       - uses: julia-actions/julia-runtest@latest
         env:
           STOPGAPCONTAINERS_TESTS: 'all'
-      # - uses: julia-actions/julia-uploadcodecov@latest
