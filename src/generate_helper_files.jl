@@ -11,7 +11,8 @@ function _generate_do_not_use_sysimage_stopgap_julia_script_content(config::Conf
 end
 
 function _generate_use_sysimage_stopgap_julia_script_content(config::Config = Config())
-    return _generate_stopgap_julia_script_content(true, config)
+    make_sysimage = config.make_sysimage
+    return _generate_stopgap_julia_script_content(make_sysimage, config)
 end
 
 function _generate_stopgap_julia_script_content(use_sysimage::Bool, config::Config = Config())

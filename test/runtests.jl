@@ -18,6 +18,13 @@ import Random: randstring
                 stopgap_docker(test_case)
                 @test isfile("Dockerfile")
             end
+            for make_sysimage in [true, false]
+                SimpleContainerGenerator.with_temp_dir() do tmp_dir
+                    @test !isfile("Dockerfile")
+                    stopgap_docker(test_case; make_sysimage = make_sysimage)
+                    @test isfile("Dockerfile")
+                end
+            end
         end
     end
     @testset "docker.jl" begin
@@ -29,20 +36,22 @@ import Random: randstring
     end
     if get(ENV, "STOPGAPCONTAINERS_TESTS", "") == "all"
         @testset "docker build" begin
-            test_cases = [[Dict(:name => "Crayons")] => ["import Crayons", "using Crayons", "import Pkg; Pkg.test(string(:Crayons))"]]
+            test_cases = [([Dict(:name => "Crayons")], ["import Crayons", "using Crayons", "import Pkg; Pkg.test(string(:Crayons))"])]
             for (pkgs, test_eval_exprs) in test_cases
-                SimpleContainerGenerator.with_temp_dir() do tmp_dir
-                    @test !isfile("Dockerfile")
-                    stopgap_docker(pkgs)
-                    @test isfile("Dockerfile")
-                    image = lowercase("test_stopgapcontainers_$(randstring(16))")
-                    p_build = run(`docker build -t $(image) .`)
-                    wait(p_build)
-                    @test success(p_build)
-                    for test_eval_expr in test_eval_exprs
-                        p_test = run(`docker run $(image) "/usr/bin/stopgap_julia -e '$(test_eval_expr)'"`)
-                        wait(p_test)
-                        @test success(p_test)
+                for make_sysimage in [true, false]
+                    SimpleContainerGenerator.with_temp_dir() do tmp_dir
+                        @test !isfile("Dockerfile")
+                        stopgap_docker(pkgs; make_sysimage = make_sysimage)
+                        @test isfile("Dockerfile")
+                        image = lowercase("test_stopgapcontainers_$(randstring(16))")
+                        p_build = run(`docker build -t $(image) .`)
+                        wait(p_build)
+                        @test success(p_build)
+                        for test_eval_expr in test_eval_exprs
+                            p_test = run(`docker run $(image) "/usr/bin/stopgap_julia -e '$(test_eval_expr)'"`)
+                            wait(p_test)
+                            @test success(p_test)
+                        end
                     end
                 end
             end
