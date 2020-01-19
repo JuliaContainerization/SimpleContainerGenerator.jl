@@ -4,10 +4,11 @@ authors = ["Dilum Aluthge"]
 version = "0.1.0-DEV"
 
 [deps]
+# PackageCompilerX = "dffaa6cc-da53-48e5-b007-4292dfcc27f1"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [compat]
+# PackageCompilerX = "TODO: list the supported versions here"
 julia = "1.4"
 
 [extras]

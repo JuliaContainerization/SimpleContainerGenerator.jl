@@ -2,7 +2,6 @@ module SimpleContainerGenerator
 
 # import PackageCompilerX
 import Pkg
-import Random
 
 export stopgap_docker
 
