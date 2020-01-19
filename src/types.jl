@@ -7,6 +7,7 @@ struct Config
     precompile_env_vars::Dict{String, String}
     julia_cpu_target::String
     wrapper_script_env_vars::Dict{String, String}
+    make_sysimage::Bool
 end
 
 function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} =
@@ -26,7 +27,9 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                 julia_cpu_target =
                     _default_julia_cpu_target,
                 wrapper_script_env_vars =
-                    _default_wrapper_script_env_vars)
+                    _default_wrapper_script_env_vars,
+                make_sysimage::Bool =
+                    true)
     apt = Vector{String}(undef, 0)
     append!(apt, default_apt)
     append!(apt, additional_apt)
@@ -38,5 +41,6 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                   packagecompilerx_installation_command,
                   precompile_env_vars,
                   julia_cpu_target,
-                  wrapper_script_env_vars)
+                  wrapper_script_env_vars,
+                  make_sysimage)
 end
