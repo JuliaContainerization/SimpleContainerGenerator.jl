@@ -32,6 +32,7 @@ function _generate_install_packages_content(config::Config)
                   "Pkg.add($(pkgs_string))\n",
                   "for name in $(pkg_names_to_test)\n",
                   "Pkg.add(name)\n",
+                  "Pkg.test(name)\n",
                   "end\n",
                   "for (uuid, info) in Pkg.dependencies()\n",
                   "Pkg.add(info.name)\n",
