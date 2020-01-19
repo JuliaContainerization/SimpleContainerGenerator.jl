@@ -1,13 +1,13 @@
-# StopgapContainers
+# SimpleContainerGenerator
 
-[![Build Status](https://travis-ci.com/bcbi/StopgapContainers.jl.svg?branch=master)](https://travis-ci.com/bcbi/StopgapContainers.jl/branches)
-[![Codecov](https://codecov.io/gh/bcbi/StopgapContainers.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/StopgapContainers.jl)
+[![Build Status](https://travis-ci.com/bcbi/SimpleContainerGenerator.jl.svg?branch=master)](https://travis-ci.com/bcbi/SimpleContainerGenerator.jl/branches)
+[![Codecov](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl)
 
 ## Installation
 
 ```julia
 import Pkg
-Pkg.add(Pkg.PackageSpec(url = "https://github.com/bcbi/StopgapContainers.jl", rev = "master"))
+Pkg.add(Pkg.PackageSpec(url = "https://github.com/bcbi/SimpleContainerGenerator.jl", rev = "master"))
 ```
 
 ## Examples
@@ -15,7 +15,7 @@ Pkg.add(Pkg.PackageSpec(url = "https://github.com/bcbi/StopgapContainers.jl", re
 ### Example 1
 
 ```julia
-julia> using StopgapContainers
+julia> using SimpleContainerGenerator
 
 julia> stopgap_docker("Crayons")
 
@@ -25,7 +25,7 @@ julia> run(`docker build -t my_docker_username/my_image_name .`)
 ### Example 2
 
 ```julia
-julia> using StopgapContainers
+julia> using SimpleContainerGenerator
 
 julia> pkgs = [(name = "PredictMD",      rev = "master"),
                (name = "PredictMDExtra", rev = "master"),
