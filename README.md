@@ -128,6 +128,6 @@ julia> run(`docker build -t my_docker_username/my_image_name .`)
 | `docker build -t my_docker_username/my_image_name .` | Build an image from a given `Dockerfile` |
 | `docker run --name my_container_name -it my_docker_username/my_image_name /bin/bash` | Start a new container from a given image and enter a `bash` session |
 | `docker start -ai my_container_name` | Reenter a container after exiting it |
-| `docker container rm -f my_container_name` | Delete the container |
+| `docker container rm -f my_container_name` | Delete a container |
 | `docker login` | Login to Docker Hub |
 | `docker push my_docker_username/my_image_name` | Push an image to Docker Hub |
