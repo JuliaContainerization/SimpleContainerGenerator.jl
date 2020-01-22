@@ -19,13 +19,13 @@ Pkg.add(Pkg.PackageSpec(url = "https://github.com/bcbi/SimpleContainerGenerator.
 ```julia
 julia> using SimpleContainerGenerator
 
-# generate the Dockerfile and several helper files
+# Generate the Dockerfile and several helper files
 julia> stopgap_docker("Crayons") 
 
-# build the Docker image
+# Build the Docker image
 julia> run(`docker build -t my_docker_username/my_image_name .`) 
 
-# start a new container from the image
+# Start a new container from the image
 julia> run(`docker run --name my_container_name -it my_docker_username/my_image_name /bin/bash`) 
 
 # Now you are inside the Docker container
@@ -82,12 +82,42 @@ Process(`docker run --name my_container_name -it my_docker_username/my_image_nam
 ```julia
 julia> using SimpleContainerGenerator
 
+# Generate the Dockerfile and several helper files
+julia> stopgap_docker(["Foo", "Bar", "Baz"])
+
+# Build the Docker image
+julia> run(`docker build -t my_docker_username/my_image_name .`)
+```
+
+### Example 3
+
+```julia
+julia> using SimpleContainerGenerator
+
+julia> pkgs = [(name = "Foo", version = "1.2.3"),
+               (name = "Bar", version = "4.5.6"),
+               (name = "Baz", version = "7.8.9")]
+
+# Generate the Dockerfile and several helper files
+julia> stopgap_docker(pkgs)
+
+# Build the Docker image
+julia> run(`docker build -t my_docker_username/my_image_name .`)
+```
+
+### Example 4
+
+```julia
+julia> using SimpleContainerGenerator
+
 julia> pkgs = [(name = "PredictMD",      rev = "master"),
                (name = "PredictMDExtra", rev = "master"),
                (name = "PredictMDFull",  rev = "master")]
 
+# Generate the Dockerfile and several helper files
 julia> stopgap_docker(pkgs)
 
+# Build the Docker image
 julia> run(`docker build -t my_docker_username/my_image_name .`)
 ```
 
