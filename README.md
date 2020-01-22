@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.com/bcbi/SimpleContainerGenerator.jl.svg?branch=master)](https://travis-ci.com/bcbi/SimpleContainerGenerator.jl/branches)
 [![Codecov](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl)
 
+SimpleContainerGenerator automates the process of creating container images for using Julia packages on systems without Internet access. The Julia packages inside the container are automatically compiled into a custom sysimage for faster load times.
+
 ## Installation
 
 ```julia
