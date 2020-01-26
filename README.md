@@ -5,6 +5,8 @@
 
 SimpleContainerGenerator automates the process of creating container images for using Julia packages on systems without Internet access. The Julia packages inside the container are automatically compiled into a custom sysimage for faster load times.
 
+To use Julia inside the continer, you should use the `stopgap_julia` command (or, equivalently, `/usr/bin/stopgap_julia`) instead of the `julia` command.
+
 ## Installation
 
 ```julia
