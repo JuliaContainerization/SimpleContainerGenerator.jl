@@ -5,7 +5,7 @@ function _generate_packagecompiler_content(config::Config)
     julia_cpu_target = config.julia_cpu_target
     make_sysimage = config.make_sysimage
     return string("import Pkg\n",
-                  "stdlib_uuids = collect(keys(Pkg.Types.stdlib()))\n",
+                  "stdlib_uuids = collect(keys(Pkg.Types.stdlibs()))\n",
                   "pkgnames = Vector{String}(undef, 0)\n",
                   "for (uuid, info) in Pkg.dependencies()\n",
                   # "if !(uuid in stdlib_uuids)\n",
