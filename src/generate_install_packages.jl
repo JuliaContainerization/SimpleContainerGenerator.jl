@@ -34,7 +34,7 @@ function _generate_install_packages_content(config::Config)
                   "Pkg.add(name)\n",
                   "Pkg.test(name)\n",
                   "end\n",
-                  "Pkg.add(collect(values(Pkg.Types.stdlib())))\n",
+                  "Pkg.add(collect(values(Pkg.Types.stdlibs())))\n",
                   "for (uuid, info) in Pkg.dependencies()\n",
                   "Pkg.add(info.name)\n",
                   "end\n",
