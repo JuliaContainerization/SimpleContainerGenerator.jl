@@ -1,7 +1,7 @@
 import Pkg
 
-function _generate_packagecompiler_content(config::Config)
-    packagecompilerx_installation_command = config.packagecompilerx_installation_command
+@inline function _generate_packagecompiler_content(config::Config)
+    packagecompiler_installation_command = config.packagecompiler_installation_command
     julia_cpu_target = config.julia_cpu_target
     make_sysimage = config.make_sysimage
     return string("import Pkg\n",
@@ -14,10 +14,10 @@ function _generate_packagecompiler_content(config::Config)
                   "end\n",
                   "end\n",
                   "pkgnames_symbols = Symbol.(pkgnames)\n",
-                  "Pkg.pkg\"$(packagecompilerx_installation_command)\"\n",
-                  "import PackageCompilerX\n",
+                  "Pkg.pkg\"$(packagecompiler_installation_command)\"\n",
+                  "import PackageCompiler\n",
                   "if $(make_sysimage)\n",
-                  "PackageCompilerX.create_sysimage(",
+                  "PackageCompiler.create_sysimage(",
                   "pkgnames_symbols; ",
                   "cpu_target = \"$(julia_cpu_target)\", ",
                   "precompile_execution_file=\"/opt/stopgapcontainers/precompile.jl\", ",

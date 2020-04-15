@@ -1,4 +1,4 @@
-function with_temp_dir(f::Function)
+@inline function with_temp_dir(f::Function)
     original_directory = pwd()
     tmp_dir = mktempdir()
     atexit(() -> rm(tmp_dir; force = true, recursive = true))

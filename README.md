@@ -19,59 +19,33 @@ Pkg.add(Pkg.PackageSpec(url = "https://github.com/bcbi/SimpleContainerGenerator.
 ### Example 1
 
 ```julia
-julia> using SimpleContainerGenerator
+julia> import SimpleContainerGenerator
 
 # Generate the Dockerfile and several helper files
-julia> stopgap_docker("Crayons") 
+julia> SimpleContainerGenerator.stopgap_docker("Example")
 
 # Build the Docker image
-julia> run(`docker build -t my_docker_username/my_image_name .`) 
+julia> run(`docker build -t my_docker_username/my_image_name .`)
 
 # Start a new container from the image
-julia> run(`docker run --name my_container_name -it my_docker_username/my_image_name /bin/bash`) 
+julia> run(`docker run --name my_container_name -it my_docker_username/my_image_name /bin/bash`)
 
 # Now you are inside the Docker container
 # To run Julia inside the container, use `stopgap_julia` instead of julia
 
 root@8fb7168c79f4:/# stopgap_julia -e 'println("Hello world!")'
 Hello world!
-[]root@8fb7168c79f4:/# stopgap_julia -e 'import Crayons; Crayons.print_logo()'
-
-
-   ██████╗██████╗  █████╗ ██╗   ██╗ ██████╗ ███╗   ██╗███████╗
-  ██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝██╔═══██╗████╗  ██║██╔════╝
-  ██║     ██████╔╝███████║ ╚████╔╝ ██║   ██║██╔██╗ ██║███████╗
-  ██║     ██╔══██╗██╔══██║  ╚██╔╝  ██║   ██║██║╚██╗██║╚════██║
-  ╚██████╗██║  ██║██║  ██║   ██║   ╚██████╔╝██║ ╚████║███████║
-   ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+[]root@8fb7168c79f4:/# stopgap_julia -e 'import Example; @show Example.domath(5)'
 
 []root@8fb7168c79f4:/# stopgap_julia
 
 # Now you are in an interactive Julia session inside the container
-               _
-   _       _ _(_)_     |  Documentation: https://docs.julialang.org
-  (_)     | (_) (_)    |
-   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
-  | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.5.0-DEV.139 (2020-01-22)
- _/ |\__'_|_|_|\__'_|  |  Commit c2abaeedf8 (0 days old master)
-|__/                   |
 
 julia> println("Hello world!")
-Hello world!
 
-julia> import Crayons
+julia> import Example
 
-julia> Crayons.print_logo()
-
-
-   ██████╗██████╗  █████╗ ██╗   ██╗ ██████╗ ███╗   ██╗███████╗
-  ██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝██╔═══██╗████╗  ██║██╔════╝
-  ██║     ██████╔╝███████║ ╚████╔╝ ██║   ██║██╔██╗ ██║███████╗
-  ██║     ██╔══██╗██╔══██║  ╚██╔╝  ██║   ██║██║╚██╗██║╚════██║
-  ╚██████╗██║  ██║██║  ██║   ██║   ╚██████╔╝██║ ╚████║███████║
-   ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚══════╝
-
+julia> Example.domath(5)
 
 julia> exit() # exit the Julia session inside the container
 []root@8fb7168c79f4:/# exit # exit the container
@@ -82,10 +56,10 @@ Process(`docker run --name my_container_name -it my_docker_username/my_image_nam
 ### Example 2
 
 ```julia
-julia> using SimpleContainerGenerator
+julia> import SimpleContainerGenerator
 
 # Generate the Dockerfile and several helper files
-julia> stopgap_docker(["Foo", "Bar", "Baz"])
+julia> SimpleContainerGenerator.stopgap_docker(["Foo", "Bar", "Baz"])
 
 # Build the Docker image
 julia> run(`docker build -t my_docker_username/my_image_name .`)
@@ -94,14 +68,14 @@ julia> run(`docker build -t my_docker_username/my_image_name .`)
 ### Example 3
 
 ```julia
-julia> using SimpleContainerGenerator
+julia> import SimpleContainerGenerator
 
 julia> pkgs = [(name = "Foo", version = "1.2.3"),
                (name = "Bar", version = "4.5.6"),
                (name = "Baz", version = "7.8.9")]
 
 # Generate the Dockerfile and several helper files
-julia> stopgap_docker(pkgs)
+julia> SimpleContainerGenerator.stopgap_docker(pkgs)
 
 # Build the Docker image
 julia> run(`docker build -t my_docker_username/my_image_name .`)
@@ -110,14 +84,14 @@ julia> run(`docker build -t my_docker_username/my_image_name .`)
 ### Example 4
 
 ```julia
-julia> using SimpleContainerGenerator
+julia> import SimpleContainerGenerator
 
 julia> pkgs = [(name = "PredictMD",      rev = "master"),
                (name = "PredictMDExtra", rev = "master"),
                (name = "PredictMDFull",  rev = "master")]
 
 # Generate the Dockerfile and several helper files
-julia> stopgap_docker(pkgs)
+julia> SimpleContainerGenerator.stopgap_docker(pkgs)
 
 # Build the Docker image
 julia> run(`docker build -t my_docker_username/my_image_name .`)
@@ -129,6 +103,7 @@ julia> run(`docker build -t my_docker_username/my_image_name .`)
 | ------- | ----------- |
 | `docker build -t my_docker_username/my_image_name .` | Build an image from a given `Dockerfile` |
 | `docker run --name my_container_name -it my_docker_username/my_image_name /bin/bash` | Start a new container from a given image and enter a `bash` session |
+| `docker run --name my_container_name -it -v /Users/MYUSERNAME/Desktop/MYFOLDER:/mount/MYFOLDER my_docker_username/my_image_name /bin/bash` | Start a new container from a given image, mount a local directory, and enter a `bash` session |
 | `docker start -ai my_container_name` | Reenter a container after exiting it |
 | `docker container rm -f my_container_name` | Delete a container |
 | `docker login` | Login to Docker Hub |
