@@ -16,7 +16,7 @@ Pkg.add(Pkg.PackageSpec(url = "https://github.com/bcbi/SimpleContainerGenerator.
 
 ### Example 1
 
-```julia
+```
 julia> import SimpleContainerGenerator
 
 # Generate the Dockerfile and several helper files
