@@ -7,10 +7,10 @@
 Manifest.toml
 
 Dockerfile
-stopgapcontainers_files/
+simplecontainergenerator_container_files/
 install_packages.jl
 packagecompiler.jl
 precompile.jl
 startup.jl
-stopgap_julia.sh
-no_sysimage_stopgap_julia.sh
+julia.sh
+no_sysimage_julia.sh

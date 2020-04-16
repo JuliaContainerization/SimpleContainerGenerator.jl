@@ -10,7 +10,7 @@ branches:
 
 env:
   global:
-    STOPGAPCONTAINERS_TESTS="all"
+    SIMPLECONTAINERGENERATOR_TESTS="all"
 
 julia:
   - "1.4"
