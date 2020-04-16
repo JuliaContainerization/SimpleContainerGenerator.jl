@@ -1,4 +1,4 @@
-name: build_test_push_stopgap_predictmd
+name: PredictMD
 on:
   pull_request:
   push:
@@ -10,7 +10,7 @@ on:
     - cron: '00 00,12 * * *'
 
 jobs:
-  build_test_push_stopgap_predictmd:
+  PredictMD:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -28,13 +28,13 @@ jobs:
           arch: ${{ matrix.arch }}
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
-      - run: julia --project -e 'using SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master"), (name = "PredictMDExtra", rev = "master"), (name = "PredictMDFull", rev = "master")]; stopgap_docker(pkgs; julia_version = "nightly")'
+      - run: julia --project -e 'import SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master"), (name = "PredictMDExtra", rev = "master"), (name = "PredictMDFull", rev = "master")]; SimpleContainerGenerator.create_dockerfile(pkgs)'
       - if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-      - run: docker build -t dilumaluthge/stopgap_predictmd .
-      - run: docker run dilumaluthge/stopgap_predictmd "JULIA_DEBUG=all PREDICTMD_TEST_GROUP=all PREDICTMD_TEST_PLOTS=true /usr/bin/stopgap_julia -e 'import Pkg; Pkg.test(string(:PredictMDExtra)); Pkg.test(string(:PredictMDFull)); Pkg.test(string(:PredictMD))'"
+      - run: docker build -t dilumaluthge/predictmd .
+      - run: docker run dilumaluthge/predictmd "JULIA_DEBUG=all PREDICTMD_TEST_GROUP=all PREDICTMD_TEST_PLOTS=true /usr/bin/julia -e 'import Pkg; Pkg.test(string(:PredictMDExtra)); Pkg.test(string(:PredictMDFull)); Pkg.test(string(:PredictMD))'"
       - if: success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
-        run: docker push dilumaluthge/stopgap_predictmd
+        run: docker push dilumaluthge/predictmd

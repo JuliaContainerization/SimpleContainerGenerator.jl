@@ -3,8 +3,6 @@ module SimpleContainerGenerator
 import PackageCompiler
 import Pkg
 
-export stopgap_docker
-
 include("types.jl")
 
 include("public.jl")

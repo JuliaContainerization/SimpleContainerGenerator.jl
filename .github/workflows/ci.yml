@@ -30,4 +30,4 @@ jobs:
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
         env:
-          STOPGAPCONTAINERS_TESTS: 'all'
+          SIMPLECONTAINERGENERATOR_TESTS: 'all'

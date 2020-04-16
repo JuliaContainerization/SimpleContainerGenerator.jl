@@ -20,8 +20,8 @@ import Pkg
                   "PackageCompiler.create_sysimage(",
                   "pkgnames_symbols; ",
                   "cpu_target = \"$(julia_cpu_target)\", ",
-                  "precompile_execution_file=\"/opt/stopgapcontainers/precompile.jl\", ",
-                  "sysimage_path = \"/opt/stopgapcontainers/sysimage/SimpleContainerGeneratorSysimage.so\"",
+                  "precompile_execution_file=\"/opt/simplecontainergenerator_containers/precompile.jl\", ",
+                  "sysimage_path = \"/opt/simplecontainergenerator_containers/sysimage/SimpleContainerGeneratorSysimage.so\"",
                   ")\n",
                   "end\n")
 end

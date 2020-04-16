@@ -32,16 +32,16 @@ end
                                        "LANGUAGE=en_US.UTF-8 ",
                                        "PROMPT_COMMAND=\"echo -n [\$()]\"\n")
     section_05_julia_gpg_key = string("RUN cd /tmp && ",
-                                   "mkdir -p /tmp/stopgapcontainers-julia-gpg-key && ",
-                                   "cd /tmp/stopgapcontainers-julia-gpg-key && ",
+                                   "mkdir -p /tmp/simplecontainergenerator_containers-julia-gpg-key && ",
+                                   "cd /tmp/simplecontainergenerator_containers-julia-gpg-key && ",
                                    "curl https://julialang.org/juliareleases.asc --output juliareleases.asc && ",
                                    "gpg --import juliareleases.asc && ",
                                    "cd /tmp && ",
-                                   "rm -rf /tmp/stopgapcontainers-julia-gpg-key\n")
+                                   "rm -rf /tmp/simplecontainergenerator_containers-julia-gpg-key\n")
     section_06_install_julia = string("RUN cd /tmp && ",
                                    "mkdir -p /opt && ",
-                                   "mkdir -p /tmp/stopgapcontainers-download-julia && ",
-                                   "cd /tmp/stopgapcontainers-download-julia && ",
+                                   "mkdir -p /tmp/simplecontainergenerator_containers-download-julia && ",
+                                   "cd /tmp/simplecontainergenerator_containers-download-julia && ",
                                    # "curl $(julia_url) --output julia.tar.gz && ",
                                    "wget -O julia.tar.gz $(julia_url) && ",
                                    # "curl $(asc_url) --output julia.tar.gz.asc && ",
@@ -49,51 +49,51 @@ end
                                    "gpg --verify julia.tar.gz.asc && ",
                                    "tar xzf julia.tar.gz -C /opt --strip-components=1 && ",
                                    "cd /tmp && ",
-                                   "rm -rf /tmp/stopgapcontainers-download-julia && ",
+                                   "rm -rf /tmp/simplecontainergenerator_containers-download-julia && ",
                                    "cd /tmp && ",
-                                   "rm -rf /tmp/stopgap-build-depot && ",
-                                   "mkdir -p /tmp/stopgap-build-depot && ",
-                                   "JULIA_DEPOT_PATH=/tmp/stopgap-build-depot /opt/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(; verbose=true)' && ",
+                                   "rm -rf /tmp/simplecontainergenerator-containers-build-depot && ",
+                                   "mkdir -p /tmp/simplecontainergenerator-containers-build-depot && ",
+                                   "JULIA_DEPOT_PATH=/tmp/simplecontainergenerator-containers-build-depot /opt/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(; verbose=true)' && ",
                                    "rm -rf /opt/share/julia/compiled\n")
-    section_07_make_opt_directories = string("RUN mkdir -p /opt/stopgapcontainers/julia_project && ",
-                                          "mkdir -p /opt/stopgapcontainers/julia_depot &&",
-                                          "mkdir -p /opt/stopgapcontainers/sysimage\n",)
+    section_07_make_opt_directories = string("RUN mkdir -p /opt/simplecontainergenerator_containers/julia_project && ",
+                                          "mkdir -p /opt/simplecontainergenerator_containers/julia_depot &&",
+                                          "mkdir -p /opt/simplecontainergenerator_containers/sysimage\n",)
     section_08_startup = string("RUN rm -rf /opt/etc/julia/startup.jl && ",
                              "mkdir -p /opt/etc/julia\n",
-                             "COPY stopgapcontainers_files/startup.jl /opt/etc/julia/startup.jl\n",
+                             "COPY simplecontainergenerator_container_files/startup.jl /opt/etc/julia/startup.jl\n",
                              "RUN chmod 444 /opt/etc/julia/startup.jl\n")
-    section_09_stopgap_julia = string("RUN rm -rf /usr/bin/stopgap_julia && ",
+    section_09_julia = string("RUN rm -rf /usr/bin/julia && ",
                                    "mkdir -p /usr/bin\n",
-                                   "COPY stopgapcontainers_files/stopgap_julia.sh /usr/bin/stopgap_julia\n",
-                                   "COPY stopgapcontainers_files/no_sysimage_stopgap_julia.sh /usr/bin/no_sysimage_stopgap_julia\n",
-                                   "RUN chmod 555 /usr/bin/stopgap_julia\n",
-                                   "RUN chmod 555 /usr/bin/no_sysimage_stopgap_julia\n")
-    section_10_install_packages = string("RUN rm -rf /opt/stopgapcontainers/install_packages.jl && ",
-                                      "mkdir -p /opt/stopgapcontainers\n",
-                                      "COPY stopgapcontainers_files/install_packages.jl /opt/stopgapcontainers/install_packages.jl\n",
+                                   "COPY simplecontainergenerator_container_files/julia.sh /usr/bin/julia\n",
+                                   "COPY simplecontainergenerator_container_files/no_sysimage_julia.sh /usr/bin/no_sysimage_julia\n",
+                                   "RUN chmod 555 /usr/bin/julia\n",
+                                   "RUN chmod 555 /usr/bin/no_sysimage_julia\n")
+    section_10_install_packages = string("RUN rm -rf /opt/simplecontainergenerator_containers/install_packages.jl && ",
+                                      "mkdir -p /opt/simplecontainergenerator_containers\n",
+                                      "COPY simplecontainergenerator_container_files/install_packages.jl /opt/simplecontainergenerator_containers/install_packages.jl\n",
                                       "RUN cd /tmp && ",
-                                      "JULIA_DEBUG=all STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/install_packages.jl\n")
-    section_11_precompile = string("RUN rm -rf /opt/stopgapcontainers/precompile.jl && ",
-                                "mkdir -p /opt/stopgapcontainers\n",
-                                "COPY stopgapcontainers_files/precompile.jl /opt/stopgapcontainers/precompile.jl\n",)
-    section_12_packagecompiler = string("RUN rm -rf /opt/stopgapcontainers/packagecompiler.jl && ",
-                                     "mkdir -p /opt/stopgapcontainers\n",
-                                     "COPY stopgapcontainers_files/packagecompiler.jl /opt/stopgapcontainers/packagecompiler.jl\n",
+                                      "JULIA_DEBUG=all SIMPLECONTAINERGENERATOR_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_julia /opt/simplecontainergenerator_containers/install_packages.jl\n")
+    section_11_precompile = string("RUN rm -rf /opt/simplecontainergenerator_containers/precompile.jl && ",
+                                "mkdir -p /opt/simplecontainergenerator_containers\n",
+                                "COPY simplecontainergenerator_container_files/precompile.jl /opt/simplecontainergenerator_containers/precompile.jl\n",)
+    section_12_packagecompiler = string("RUN rm -rf /opt/simplecontainergenerator_containers/packagecompiler.jl && ",
+                                     "mkdir -p /opt/simplecontainergenerator_containers\n",
+                                     "COPY simplecontainergenerator_container_files/packagecompiler.jl /opt/simplecontainergenerator_containers/packagecompiler.jl\n",
                                      "RUN cd /tmp && ",
-                                     "JULIA_DEBUG=all STOPGAP_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_stopgap_julia /opt/stopgapcontainers/packagecompiler.jl\n")
-    section_13_try_no_sysimage = "RUN JULIA_DEBUG=all /usr/bin/no_sysimage_stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
-    section_14_try_sysimage = "RUN JULIA_DEBUG=all /usr/bin/stopgap_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
+                                     "JULIA_DEBUG=all SIMPLECONTAINERGENERATOR_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_julia /opt/simplecontainergenerator_containers/packagecompiler.jl\n")
+    section_13_try_no_sysimage = "RUN JULIA_DEBUG=all /usr/bin/no_sysimage_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
+    section_14_try_sysimage = "RUN JULIA_DEBUG=all /usr/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
     section_15_delete_all_compiled_cache = string("RUN rm -rf /opt/bin/julia/compiled && ",
                                                   "rm -rf /opt/etc/julia/compiled && ",
                                                   "rm -rf /opt/share/julia/compiled && ",
-                                                  "rm -rf /opt/stopgapcontainers/julia_depot/compiled  && ",
-                                                  "rm -rf /opt/stopgapcontainers/julia_project/compiled  && ",
-                                                  "rm -rf /opt/stopgapcontainers/sysimage/compiled\n")
+                                                  "rm -rf /opt/simplecontainergenerator_containers/julia_depot/compiled  && ",
+                                                  "rm -rf /opt/simplecontainergenerator_containers/julia_project/compiled  && ",
+                                                  "rm -rf /opt/simplecontainergenerator_containers/sysimage/compiled\n")
     penultimate_section_fix_permissions = string("RUN find /opt -type d -print0 | xargs -0 chmod a+rx\n",
                                                  "RUN find /opt -type f -print0 | xargs -0 chmod a+r\n",
                                                  "RUN chmod a+rx /opt/bin/julia && ",
-                                                 "chmod a+rx /usr/bin/stopgap_julia && ",
-                                                 "chmod a+rx /usr/bin/no_sysimage_stopgap_julia\n")
+                                                 "chmod a+rx /usr/bin/julia && ",
+                                                 "chmod a+rx /usr/bin/no_sysimage_julia\n")
     final_section_entrypoint = "ENTRYPOINT [\"/bin/bash\", \"-c\"]\n"
     return string(section_01_from,
                   section_02_apt,
@@ -103,7 +103,7 @@ end
                   section_06_install_julia,
                   section_07_make_opt_directories,
                   section_08_startup,
-                  section_09_stopgap_julia,
+                  section_09_julia,
                   section_10_install_packages,
                   section_11_precompile,
                   section_12_packagecompiler,
@@ -118,14 +118,14 @@ end
                                          directory::AbstractString)
     files = Dict()
     files[["Dockerfile"]] = _generate_dockerfile_content(config)
-    files[["stopgapcontainers_files", "startup.jl"]] = _generate_global_startup_file_content(config)
-    files[["stopgapcontainers_files", "stopgap_julia.sh"]] = _generate_use_sysimage_stopgap_julia_script_content(config)
-    files[["stopgapcontainers_files", "no_sysimage_stopgap_julia.sh"]] = _generate_do_not_use_sysimage_stopgap_julia_script_content(config)
-    files[["stopgapcontainers_files", "install_packages.jl"]] = _generate_install_packages_content(config)
-    files[["stopgapcontainers_files", "precompile.jl"]] = _generate_precompile_content(config)
-    files[["stopgapcontainers_files", "packagecompiler.jl"]] = _generate_packagecompiler_content(config)
+    files[["simplecontainergenerator_container_files", "startup.jl"]] = _generate_global_startup_file_content(config)
+    files[["simplecontainergenerator_container_files", "julia.sh"]] = _generate_use_sysimage_julia_script_content(config)
+    files[["simplecontainergenerator_container_files", "no_sysimage_julia.sh"]] = _generate_do_not_use_sysimage_julia_script_content(config)
+    files[["simplecontainergenerator_container_files", "install_packages.jl"]] = _generate_install_packages_content(config)
+    files[["simplecontainergenerator_container_files", "precompile.jl"]] = _generate_precompile_content(config)
+    files[["simplecontainergenerator_container_files", "packagecompiler.jl"]] = _generate_packagecompiler_content(config)
     rm(joinpath(directory, "Dockerfile"); force = true, recursive = true)
-    rm(joinpath(directory, "stopgapcontainers_files"); force = true, recursive = true)
+    rm(joinpath(directory, "simplecontainergenerator_container_files"); force = true, recursive = true)
     mkpath(directory)
     for (parts, filecontent) in files
         fullfilepath = joinpath(directory, parts...)
