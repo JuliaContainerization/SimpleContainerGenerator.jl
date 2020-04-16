@@ -1,4 +1,4 @@
-function _generate_julia_command(use_sysimage::Bool)
+@inline function _generate_julia_command(use_sysimage::Bool)
     if use_sysimage
         return "/opt/bin/julia -J/opt/stopgapcontainers/sysimage/SimpleContainerGeneratorSysimage.so"
     else
@@ -6,16 +6,17 @@ function _generate_julia_command(use_sysimage::Bool)
     end
 end
 
-function _generate_do_not_use_sysimage_stopgap_julia_script_content(config::Config = Config())
+@inline function _generate_do_not_use_sysimage_stopgap_julia_script_content(config::Config = Config())
     return _generate_stopgap_julia_script_content(false, config)
 end
 
-function _generate_use_sysimage_stopgap_julia_script_content(config::Config = Config())
+@inline function _generate_use_sysimage_stopgap_julia_script_content(config::Config = Config())
     make_sysimage = config.make_sysimage
     return _generate_stopgap_julia_script_content(make_sysimage, config)
 end
 
-function _generate_stopgap_julia_script_content(use_sysimage::Bool, config::Config = Config())
+@inline function _generate_stopgap_julia_script_content(use_sysimage::Bool,
+                                                        config::Config = Config())
     julia_command = _generate_julia_command(use_sysimage)
     wrapper_script_env_vars = config.wrapper_script_env_vars
     set_wrapper_script_env_vars_string = ""
@@ -28,7 +29,7 @@ function _generate_stopgap_julia_script_content(use_sysimage::Bool, config::Conf
                   "$(julia_command) \"\$@\"\n")
 end
 
-function _generate_global_startup_file_content(config::Config = Config())
+@inline function _generate_global_startup_file_content(config::Config = Config())
     return string("_stopgapcontainers_temp_depot_tmpdir = mktempdir()\n",
                   "atexit(() -> rm(_stopgapcontainers_temp_depot_tmpdir; force = true, recursive = true))\n",
                   "_stopgapcontainers_temp_depot = joinpath(_stopgapcontainers_temp_depot_tmpdir, \"stopgapcontainers_temp_depot\")\n",

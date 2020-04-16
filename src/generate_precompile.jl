@@ -1,4 +1,4 @@
-function _generate_precompile_content(config::Config)
+@inline function _generate_precompile_content(config::Config)
     pkgs = config.pkgs
     no_test = config.no_test
     precompile_env_vars = config.precompile_env_vars

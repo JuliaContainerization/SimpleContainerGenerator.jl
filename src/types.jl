@@ -1,35 +1,39 @@
+struct AlwaysAssertionError <: Exception
+    msg::String
+end
+
 struct Config
-    julia_version::String
+    julia_version::Union{String, VersionNumber}
     apt::Vector{String}
     pkgs::Vector{Dict{Symbol,String}}
     no_test::Vector{String}
-    packagecompilerx_installation_command::String
+    packagecompiler_installation_command::String
     precompile_env_vars::Dict{String, String}
     julia_cpu_target::String
     wrapper_script_env_vars::Dict{String, String}
     make_sysimage::Bool
 end
 
-function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} =
-                    Vector{Dict{Symbol,String}}(undef, 0);
-                no_test =
-                    String[],
-                julia_version::AbstractString =
-                    _default_julia_version,
-                default_apt::AbstractVector{<:AbstractString} =
-                    _default_apt,
-                additional_apt::AbstractVector{<:AbstractString} =
-                    String[],
-                packagecompilerx_installation_command::String =
-                    _default_packagecompilerx_installation_command,
-                precompile_env_vars =
-                    _default_precompile_env_vars,
-                julia_cpu_target =
-                    _default_julia_cpu_target,
-                wrapper_script_env_vars =
-                    _default_wrapper_script_env_vars,
-                make_sysimage::Bool =
-                    true)
+@inline function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} =
+                            Vector{Dict{Symbol,String}}(undef, 0);
+                        no_test =
+                            String[],
+                        julia_version::Union{AbstractString, VersionNumber} =
+                            _default_julia_version(),
+                        default_apt::AbstractVector{<:AbstractString} =
+                            _default_apt(),
+                        additional_apt::AbstractVector{<:AbstractString} =
+                            String[],
+                        packagecompiler_installation_command::String =
+                            _default_packagecompiler_installation_command(),
+                        precompile_env_vars =
+                            _default_precompile_env_vars(),
+                        julia_cpu_target =
+                            _default_julia_cpu_target(),
+                        wrapper_script_env_vars =
+                            _default_wrapper_script_env_vars(),
+                        make_sysimage::Bool =
+                            true)
     apt = Vector{String}(undef, 0)
     append!(apt, default_apt)
     append!(apt, additional_apt)
@@ -38,7 +42,7 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                   apt,
                   pkgs,
                   no_test,
-                  packagecompilerx_installation_command,
+                  packagecompiler_installation_command,
                   precompile_env_vars,
                   julia_cpu_target,
                   wrapper_script_env_vars,

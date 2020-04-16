@@ -1,4 +1,4 @@
-function _generate_apt_install_command(config::Config)
+@inline function _generate_apt_install_command(config::Config)
     apt = config.apt
     pkgs = config.pkgs
     if isempty(config.apt)
@@ -9,21 +9,21 @@ function _generate_apt_install_command(config::Config)
     end
 end
 
-function _generate_dockerfile_content(config::Config)
-    julia_url = _get_julia_url(config)
+@inline function _generate_dockerfile_content(config::Config)
+    julia_url, asc_url = _get_julia_url(config)
     apt_install = _generate_apt_install_command(config)
     section_01_from = "FROM ubuntu:latest\nENV DEBIAN_FRONTEND noninteractive\n"
     section_02_apt = string("RUN apt-get update",
-                                 " && apt-get -yq dist-upgrade",
-                                 " && apt-get update",
-                                 " && apt-get -yq dist-upgrade",
-                                 apt_install,
-                                 " && apt-get update",
-                                 " && apt-get -yq dist-upgrade",
-                                 " && apt-get update",
-                                 " && apt-get -yq dist-upgrade",
-                                 " && apt-get clean",
-                                 " && rm -rf /var/lib/apt/lists/*\n")
+                            " && apt-get -yq dist-upgrade",
+                            " && apt-get update",
+                            " && apt-get -yq dist-upgrade",
+                            apt_install,
+                            " && apt-get update",
+                            " && apt-get -yq dist-upgrade",
+                            " && apt-get update",
+                            " && apt-get -yq dist-upgrade",
+                            " && apt-get clean",
+                            " && rm -rf /var/lib/apt/lists/*\n")
     section_03_utf_locale = string("RUN echo \"en_US.UTF-8 UTF-8\" > ",
                                 "/etc/locale.gen && locale-gen\n")
 
@@ -34,7 +34,7 @@ function _generate_dockerfile_content(config::Config)
     section_05_julia_gpg_key = string("RUN cd /tmp && ",
                                    "mkdir -p /tmp/stopgapcontainers-julia-gpg-key && ",
                                    "cd /tmp/stopgapcontainers-julia-gpg-key && ",
-                                   "wget -q https://julialang.org/juliareleases.asc && ",
+                                   "curl https://julialang.org/juliareleases.asc --output juliareleases.asc && ",
                                    "gpg --import juliareleases.asc && ",
                                    "cd /tmp && ",
                                    "rm -rf /tmp/stopgapcontainers-julia-gpg-key\n")
@@ -42,8 +42,10 @@ function _generate_dockerfile_content(config::Config)
                                    "mkdir -p /opt && ",
                                    "mkdir -p /tmp/stopgapcontainers-download-julia && ",
                                    "cd /tmp/stopgapcontainers-download-julia && ",
-                                   "wget -q -O julia.tar.gz $(julia_url) && ",
-                                   "wget -q -O julia.tar.gz.asc $(julia_url).asc && ",
+                                   # "curl $(julia_url) --output julia.tar.gz && ",
+                                   "wget -O julia.tar.gz $(julia_url) && ",
+                                   # "curl $(asc_url) --output julia.tar.gz.asc && ",
+                                   "wget -O julia.tar.gz.asc $(asc_url) && ",
                                    "gpg --verify julia.tar.gz.asc && ",
                                    "tar xzf julia.tar.gz -C /opt --strip-components=1 && ",
                                    "cd /tmp && ",
@@ -51,7 +53,7 @@ function _generate_dockerfile_content(config::Config)
                                    "cd /tmp && ",
                                    "rm -rf /tmp/stopgap-build-depot && ",
                                    "mkdir -p /tmp/stopgap-build-depot && ",
-                                   "JULIA_DEPOT_PATH=/tmp/stopgap-build-depot /opt/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)' && ",
+                                   "JULIA_DEPOT_PATH=/tmp/stopgap-build-depot /opt/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(; verbose=true)' && ",
                                    "rm -rf /opt/share/julia/compiled\n")
     section_07_make_opt_directories = string("RUN mkdir -p /opt/stopgapcontainers/julia_project && ",
                                           "mkdir -p /opt/stopgapcontainers/julia_depot &&",
@@ -112,7 +114,8 @@ function _generate_dockerfile_content(config::Config)
                   final_section_entrypoint)
 end
 
-function _write_all_docker_files(config::Config, directory::AbstractString)
+@inline function _write_all_docker_files(config::Config,
+                                         directory::AbstractString)
     files = Dict()
     files[["Dockerfile"]] = _generate_dockerfile_content(config)
     files[["stopgapcontainers_files", "startup.jl"]] = _generate_global_startup_file_content(config)

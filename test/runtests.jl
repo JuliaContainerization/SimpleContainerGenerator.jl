@@ -5,6 +5,18 @@ import Pkg
 import Random: randstring
 
 @testset "SimpleContainerGenerator.jl" begin
+    @testset "assert.jl" begin
+        Test.@test SimpleContainerGenerator.always_assert(true, "") == nothing
+        Test.@test_throws SimpleContainerGenerator.AlwaysAssertionError SimpleContainerGenerator.always_assert(false, "")
+    end
+
+    @testset "default_values.jl" begin
+        Test.@test SimpleContainerGenerator._default_julia_cpu_target() isa AbstractString
+        Test.@test SimpleContainerGenerator._recommended_julia_cpu_target() isa AbstractString
+        Test.@test SimpleContainerGenerator._fastest_nonportable_julia_cpu_target() isa AbstractString
+        Test.@test SimpleContainerGenerator._predictmd_apt() isa AbstractVector
+    end
+
     @testset "public.jl" begin
         test_cases = ["Crayons",
                       ["Crayons"],
@@ -27,16 +39,19 @@ import Random: randstring
             end
         end
     end
+
     @testset "docker.jl" begin
         @test SimpleContainerGenerator._generate_apt_install_command(SimpleContainerGenerator.Config(; default_apt = String[])) == ""
     end
+
     @testset "julia.jl" begin
-        @test SimpleContainerGenerator._get_julia_url("nightly") == "https://julialangnightlies-s3.julialang.org/bin/linux/x64/julia-latest-linux64.tar.gz"
-        @test SimpleContainerGenerator._get_julia_url("1.3") == "https://julialang-s3.julialang.org/bin/linux/x64/1.3/julia-1.3-latest-linux-x86_64.tar.gz"
+        @test SimpleContainerGenerator._get_julia_url("nightly") == ("https://julialangnightlies-s3.julialang.org/bin/linux/x64/julia-latest-linux64.tar.gz", "https://julialangnightlies-s3.julialang.org/bin/linux/x64/julia-latest-linux64.tar.gz.asc")
+        @test SimpleContainerGenerator._get_julia_url("1.4.1") == ("https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.1-linux-x86_64.tar.gz", "https://julialang-s3.julialang.org/bin/linux/x64/1.4/julia-1.4.1-linux-x86_64.tar.gz.asc")
     end
+
     if get(ENV, "STOPGAPCONTAINERS_TESTS", "") == "all"
         @testset "docker build" begin
-            test_cases = [([Dict(:name => "Crayons")], ["import Crayons", "using Crayons", "import Pkg; Pkg.test(string(:Crayons))"])]
+            test_cases = [([Dict(:name => "Example")], ["import Example", "using Example", "import Pkg; Pkg.test(string(:Example))"])]
             for (pkgs, test_eval_exprs) in test_cases
                 for make_sysimage in [true, false]
                     SimpleContainerGenerator.with_temp_dir() do tmp_dir

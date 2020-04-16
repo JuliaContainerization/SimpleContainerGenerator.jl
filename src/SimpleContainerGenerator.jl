@@ -1,6 +1,6 @@
 module SimpleContainerGenerator
 
-# import PackageCompilerX
+import PackageCompiler
 import Pkg
 
 export stopgap_docker
@@ -9,6 +9,7 @@ include("types.jl")
 
 include("public.jl")
 
+include("assert.jl")
 include("default_values.jl")
 include("docker.jl")
 include("generate_helper_files.jl")
