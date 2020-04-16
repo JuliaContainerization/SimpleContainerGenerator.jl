@@ -81,8 +81,8 @@ end
                                      "COPY simplecontainergenerator_container_files/packagecompiler.jl /opt/simplecontainergenerator_containers/packagecompiler.jl\n",
                                      "RUN cd /tmp && ",
                                      "JULIA_DEBUG=all SIMPLECONTAINERGENERATOR_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_julia /opt/simplecontainergenerator_containers/packagecompiler.jl\n")
-    section_13_try_no_sysimage = "RUN JULIA_DEBUG=all /usr/bin/no_sysimage_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
-    section_14_try_sysimage = "RUN JULIA_DEBUG=all /usr/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(verbose=true)'\n"
+    section_13_try_no_sysimage = "RUN JULIA_DEBUG=all /usr/bin/no_sysimage_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(; verbose=true)'\n"
+    section_14_try_sysimage = "RUN JULIA_DEBUG=all /usr/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(; verbose=true)'\n"
     section_15_delete_all_compiled_cache = string("RUN rm -rf /opt/bin/julia/compiled && ",
                                                   "rm -rf /opt/etc/julia/compiled && ",
                                                   "rm -rf /opt/share/julia/compiled && ",
