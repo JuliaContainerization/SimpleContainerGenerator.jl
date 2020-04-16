@@ -3,13 +3,19 @@
 [![Build Status](https://travis-ci.com/bcbi/SimpleContainerGenerator.jl.svg?branch=master)](https://travis-ci.com/bcbi/SimpleContainerGenerator.jl/branches)
 [![Codecov](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl)
 
-SimpleContainerGenerator automates the process of creating container images for using Julia packages on systems without Internet access. The Julia packages inside the container are automatically compiled into a custom sysimage for faster load times.
+SimpleContainerGenerator automates the process of creating container images for using Julia packages.
+
+The Julia packages inside the container image are automatically compiled by [PackageCompiler](https://github.com/JuliaLang/PackageCompiler.jl) into a custom Julia system image (sysimage) for faster load times.
+
+These container images are especially useful for using Julia packages on systems without Internet access. But they are not limited to that use case. You can use these container images anywhere, as long as you have access to a tool such as Docker, Singularity, etc.
+
+When building the Docker images, make sure that Docker Desktop is set to use at least 4 GB of memory (RAM). If you run into errors, you should try further increasing the amount of available memory.
 
 ## Installation
 
 ```julia
 import Pkg
-Pkg.add(Pkg.PackageSpec(url = "https://github.com/bcbi/SimpleContainerGenerator.jl", rev = "master"))
+Pkg.add("SimpleContainerGenerator")
 ```
 
 ## Examples
@@ -106,3 +112,11 @@ julia> run(`docker build -t my_docker_username/my_image_name .`)
 | `docker container rm -f my_container_name` | Delete a container |
 | `docker login` | Login to Docker Hub |
 | `docker push my_docker_username/my_image_name` | Push an image to Docker Hub |
+
+## Related Packages
+1. [PackageCompiler.jl](https://github.com/JuliaLang/PackageCompiler.jl)
+2. [PackageCompilerX.jl](https://github.com/JuliaLang/PackageCompilerX.jl)
+
+## Acknowledgements
+
+- This work was supported in part by National Institutes of Health grants U54GM115677, R01LM011963, and R25MH116440. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
