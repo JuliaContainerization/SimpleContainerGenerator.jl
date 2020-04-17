@@ -27,7 +27,9 @@ import SimpleContainerGenerator
 
 mkpath("my_image_name")
 cd("my_image_name")
-pkgs = ["Foo", "Bar", "Baz"]
+pkgs = ["Foo",
+        "Bar",
+        "Baz"]
 
 SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
 run(`docker build -t my_docker_username/my_image_name .`)
