@@ -28,7 +28,7 @@ jobs:
           arch: ${{ matrix.arch }}
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
-      - run: julia --project -e 'import SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master"), (name = "PredictMDExtra", rev = "master"), (name = "PredictMDFull", rev = "master")]; SimpleContainerGenerator.create_dockerfile(pkgs)'
+      - run: julia --project -e 'import SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master",), (name = "PredictMDExtra", rev = "master",), (name = "PredictMDFull", rev = "master",), (name = "UnicodePlots",),]; SimpleContainerGenerator.create_dockerfile(pkgs)'
       - if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

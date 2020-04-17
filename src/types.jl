@@ -7,44 +7,10 @@ struct Config
     apt::Vector{String}
     pkgs::Vector{Dict{Symbol,String}}
     no_test::Vector{String}
+    exclude_packages_from_sysimage::Vector{String}
     packagecompiler_installation_command::String
     precompile_env_vars::Dict{String, String}
     julia_cpu_target::String
     wrapper_script_env_vars::Dict{String, String}
     make_sysimage::Bool
-end
-
-@inline function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} =
-                            Vector{Dict{Symbol,String}}(undef, 0);
-                        no_test =
-                            String[],
-                        julia_version::Union{AbstractString, VersionNumber} =
-                            _default_julia_version(),
-                        default_apt::AbstractVector{<:AbstractString} =
-                            _default_apt(),
-                        additional_apt::AbstractVector{<:AbstractString} =
-                            String[],
-                        packagecompiler_installation_command::String =
-                            _default_packagecompiler_installation_command(),
-                        precompile_env_vars =
-                            _default_precompile_env_vars(),
-                        julia_cpu_target =
-                            _default_julia_cpu_target(),
-                        wrapper_script_env_vars =
-                            _default_wrapper_script_env_vars(),
-                        make_sysimage::Bool =
-                            true)
-    apt = Vector{String}(undef, 0)
-    append!(apt, default_apt)
-    append!(apt, additional_apt)
-    unique!(apt)
-    return Config(julia_version,
-                  apt,
-                  pkgs,
-                  no_test,
-                  packagecompiler_installation_command,
-                  precompile_env_vars,
-                  julia_cpu_target,
-                  wrapper_script_env_vars,
-                  make_sysimage)
 end

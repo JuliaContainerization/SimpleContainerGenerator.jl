@@ -2,7 +2,6 @@ import PackageCompiler
 
 @inline _default_packagecompiler_installation_command() = "add PackageCompiler@1"
 
-# @inline _default_julia_version() = "nightly"
 @inline _default_julia_version() = v"1.4.0"
 
 @inline _default_julia_cpu_target() = "$(PackageCompiler.default_app_cpu_target());$(PackageCompiler.NATIVE_CPU_TARGET)"

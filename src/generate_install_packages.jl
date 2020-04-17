@@ -20,17 +20,19 @@ end
 @inline function _generate_install_packages_content(config::Config)
     pkgs = config.pkgs
     no_test = config.no_test
+    exclude_packages_from_sysimage = config.exclude_packages_from_sysimage
+    pkg_names_to_import = Vector{String}(undef, 0)
     pkg_names_to_test = Vector{String}(undef, 0)
     for pkg in pkgs
         pkg_name = pkg[:name]
-        if !(pkg_name in no_test)
+        if ( !(pkg_name in no_test) ) && ( !(pkg_name in exclude_packages_from_sysimage) )
             push!(pkg_names_to_test, pkg_name)
         end
     end
     pkgs_string = _to_packagespec_string(pkgs)
     return string("import Pkg\n",
                   "Pkg.add($(pkgs_string))\n",
-                  "for name in $(pkg_names_to_test)\n",
+                  "for name in $(pkg_names_to_test) # pkg_names_to_test\n",
                   "Pkg.add(name)\n",
                   "Pkg.test(name)\n",
                   "end\n",

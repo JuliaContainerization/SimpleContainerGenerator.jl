@@ -27,9 +27,12 @@ import SimpleContainerGenerator
 
 mkpath("my_image_name")
 cd("my_image_name")
-pkgs = ["Foo",
-        "Bar",
-        "Baz"]
+
+pkgs = [
+    "Foo",
+    "Bar",
+    "Baz",
+]
 
 SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
 run(`docker build -t my_docker_username/my_image_name .`)
@@ -42,9 +45,12 @@ import SimpleContainerGenerator
 
 mkpath("my_image_name")
 cd("my_image_name")
-pkgs = [(name = "Foo", version = "1.2.3"),
-        (name = "Bar", version = "4.5.6"),
-        (name = "Baz", version = "7.8.9")]
+
+pkgs = [
+    (name = "Foo",),
+    (name = "Bar",),
+    (name = "Baz",),
+]
 
 SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
 run(`docker build -t my_docker_username/my_image_name .`)
@@ -57,9 +63,30 @@ import SimpleContainerGenerator
 
 mkpath("my_image_name")
 cd("my_image_name")
-pkgs = [(name = "Foo", version = "1.2.3"),
-        (name = "Bar", version = "4.5.6"),
-        (name = "Baz", rev     = "master")]
+
+pkgs = [
+    (name = "Foo", version = "1.2.3",),
+    (name = "Bar", version = "4.5.6",),
+    (name = "Baz", version = "7.8.9",),
+]
+
+SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
+run(`docker build -t my_docker_username/my_image_name .`)
+```
+
+### Example 4
+
+```julia
+import SimpleContainerGenerator
+
+mkpath("my_image_name")
+cd("my_image_name")
+
+pkgs = [
+    (name = "Foo", version = "1.2.3",),
+    (name = "Bar", version = "4.5.6",),
+    (name = "Baz", rev     = "master",),
+]
 
 SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
 run(`docker build -t my_docker_username/my_image_name .`)
