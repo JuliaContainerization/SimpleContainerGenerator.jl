@@ -27,7 +27,9 @@ import SimpleContainerGenerator
 
 mkpath("my_image_name")
 cd("my_image_name")
-pkgs = ["Foo", "Bar", "Baz"]
+pkgs = ["Foo",
+        "Bar",
+        "Baz"]
 
 SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
 run(`docker build -t my_docker_username/my_image_name .`)
@@ -55,61 +57,12 @@ import SimpleContainerGenerator
 
 mkpath("my_image_name")
 cd("my_image_name")
-pkgs = [(name = "PredictMD",      rev = "master"),
-        (name = "PredictMDExtra", rev = "master"),
-        (name = "PredictMDFull",  rev = "master")]
+pkgs = [(name = "Foo", version = "1.2.3"),
+        (name = "Bar", version = "4.5.6"),
+        (name = "Baz", rev     = "master")]
 
 SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
 run(`docker build -t my_docker_username/my_image_name .`)
-```
-
-### Example 4
-
-```
-julia> import SimpleContainerGenerator
-
-julia> mkpath("my_image_name")
-
-julia> cd("my_image_name")
-
-julia> pkgs = ["Example"]
-
-# Generate the Dockerfile and several helper files
-julia> SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
-
-# Build the Docker image
-julia> run(`docker build -t my_docker_username/my_image_name .`)
-
-# Start a new Docker container based on the image
-julia> run(`docker run --name my_container_name -it my_docker_username/my_image_name /bin/bash`)
-
-# Now you are inside the Docker container
-[]root@06cf1a773ceb:/# julia -e 'println("Hello world!")'
-Hello world!
-[]root@06cf1a773ceb:/# julia -e 'import Example; @show Example.domath(5)'
-Example.domath(5) = 10
-[]root@06cf1a773ceb:/# julia
-              _
-  _       _ _(_)_     |  Documentation: https://docs.julialang.org
- (_)     | (_) (_)    |
-  _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
- | | | | | | |/ _` |  |
- | | |_| | | | (_| |  |  Version 1.4.0 (2020-03-21)
-_/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
-|__/                   |
-
-# Now you are in a Julia REPL inside the container
-
-julia> println("Hello world!")
-Hello world!
-
-julia> import Example
-
-julia> Example.domath(5)
-10
-
-julia> exit() # exit the Julia REPL
-[]root@06cf1a773ceb:/# exit # exit the container
 ```
 
 ## Docker cheatsheet
