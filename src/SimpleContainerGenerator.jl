@@ -2,12 +2,15 @@ module SimpleContainerGenerator
 
 import PackageCompiler
 import Pkg
+import UUIDs
 
 include("types.jl")
 
 include("public.jl")
 
 include("assert.jl")
+include("config.jl")
+include("create_dockerfile.jl")
 include("default_values.jl")
 include("docker.jl")
 include("generate_helper_files.jl")

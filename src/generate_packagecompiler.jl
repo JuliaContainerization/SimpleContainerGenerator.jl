@@ -4,16 +4,20 @@ import Pkg
     packagecompiler_installation_command = config.packagecompiler_installation_command
     julia_cpu_target = config.julia_cpu_target
     make_sysimage = config.make_sysimage
+    exclude_packages_from_sysimage = config.exclude_packages_from_sysimage
     return string("import Pkg\n",
                   "stdlib_uuids = collect(keys(Pkg.Types.stdlibs()))\n",
                   "pkgnames = Vector{String}(undef, 0)\n",
                   "for (uuid, info) in Pkg.dependencies()\n",
-                  # "if !(uuid in stdlib_uuids)\n",
-                  "if true\n",
+                  "if !(info.name in $(exclude_packages_from_sysimage))\n",
                   "push!(pkgnames, info.name)\n",
                   "end\n",
                   "end\n",
                   "pkgnames_symbols = Symbol.(pkgnames)\n",
+                  "println(\"pkgnames_symbols: (n = \$(length(pkgnames_symbols)))\")\n",
+                  "for i = 1:length(pkgnames_symbols)\n",
+                  "println(\"\$(i). \$(pkgnames_symbols[i])\")\n",
+                  "end\n",
                   "Pkg.pkg\"$(packagecompiler_installation_command)\"\n",
                   "import PackageCompiler\n",
                   "if $(make_sysimage)\n",
