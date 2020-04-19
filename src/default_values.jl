@@ -12,7 +12,8 @@ import PackageCompiler
                                                                "PREDICTMD_TEST_PLOTS" => "true")
 
 @inline _default_wrapper_script_env_vars() = Dict{String, String}("PREDICTMD_TEST_GROUP" => "all",
-                                                                  "PREDICTMD_TEST_PLOTS" => "true")
+                                                                  "PREDICTMD_TEST_PLOTS" => "true",
+                                                                  "GKSwstype" => "100")
 
 @inline _predictmd_apt() = String[]
 
@@ -57,6 +58,7 @@ import PackageCompiler
                                 "openssl",
                                 "pdf2svg",
                                 "poppler-utils",
+                                "qt5-default",
                                 "screen",
                                 "sudo",
                                 "texlive-binaries",
