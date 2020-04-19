@@ -42,4 +42,4 @@ jobs:
       - if: success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
         run: |
          docker --config ~/.dockerconfig1 push dilumaluthge/predictmd
-         docker --config ~/.dockerconfig2 push docker.pkg.github.com/bcbi/SimpleContainerGenerator.jl/predictmd
+         docker --config ~/.dockerconfig2 push docker.pkg.github.com/bcbi/simplecontainergenerator.jl/predictmd
