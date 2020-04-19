@@ -1,6 +1,8 @@
 import PackageCompiler
 
-@inline _default_packagecompiler_installation_command() = "add PackageCompiler@1"
+@inline _default_packagecompiler_installation_command() = "import Pkg; Pkg.add(Pkg.PackageSpec(name = \"PackageCompiler\", version = \"1.1.1 - 1\"));"
+
+@inline _default_simplecontainergenerator_installation_command() = "import Pkg; Pkg.add(Pkg.PackageSpec(name = \"SimpleContainerGenerator\", version = \"0.1.6 - *\"));"
 
 @inline _default_julia_version() = v"1.4.0"
 
@@ -8,11 +10,12 @@ import PackageCompiler
 @inline _recommended_julia_cpu_target() = "$(PackageCompiler.default_app_cpu_target());$(PackageCompiler.NATIVE_CPU_TARGET)"
 @inline _fastest_nonportable_julia_cpu_target() = "$(PackageCompiler.NATIVE_CPU_TARGET)"
 
-@inline  _default_precompile_env_vars() = Dict{String, String}("PREDICTMD_TEST_GROUP" => "all",
+@inline  _default_precompile_execution_env_vars() = Dict{String, String}("PREDICTMD_TEST_GROUP" => "all",
                                                                "PREDICTMD_TEST_PLOTS" => "true")
 
 @inline _default_wrapper_script_env_vars() = Dict{String, String}("PREDICTMD_TEST_GROUP" => "all",
-                                                                  "PREDICTMD_TEST_PLOTS" => "true")
+                                                                  "PREDICTMD_TEST_PLOTS" => "true",
+                                                                  "GKSwstype" => "100")
 
 @inline _predictmd_apt() = String[]
 
@@ -57,6 +60,7 @@ import PackageCompiler
                                 "openssl",
                                 "pdf2svg",
                                 "poppler-utils",
+                                "qt5-default",
                                 "screen",
                                 "sudo",
                                 "texlive-binaries",
