@@ -1,10 +1,12 @@
 import PackageCompiler
 
+@inline _default_docker_parent_image() = "ubuntu:latest"
+
+@inline _default_julia_version() = v"1.4.0"
+
 @inline _default_packagecompiler_installation_command() = "import Pkg; Pkg.add(Pkg.PackageSpec(name = \"PackageCompiler\", version = \"1.1.1 - 1\"));"
 
 @inline _default_simplecontainergenerator_installation_command() = "import Pkg; Pkg.add(Pkg.PackageSpec(name = \"SimpleContainerGenerator\", version = \"0.1.6 - *\"));"
-
-@inline _default_julia_version() = v"1.4.0"
 
 @inline _default_julia_cpu_target() = "$(PackageCompiler.default_app_cpu_target());$(PackageCompiler.NATIVE_CPU_TARGET)"
 @inline _recommended_julia_cpu_target() = "$(PackageCompiler.default_app_cpu_target());$(PackageCompiler.NATIVE_CPU_TARGET)"
