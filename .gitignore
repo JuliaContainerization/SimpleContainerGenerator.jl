@@ -8,9 +8,3 @@ Manifest.toml
 
 Dockerfile
 simplecontainergenerator_container_files/
-install_packages.jl
-packagecompiler.jl
-precompile.jl
-startup.jl
-julia.sh
-no_sysimage_julia.sh
