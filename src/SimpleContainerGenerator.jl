@@ -8,9 +8,10 @@ include("types.jl")
 
 include("public.jl")
 
+include("public_create_dockerfile.jl")
+
 include("assert.jl")
 include("backups_of_simplecontainergenerator.jl")
-include("create_dockerfile.jl")
 include("default_values.jl")
 include("docker.jl")
 include("generate_helper_files.jl")
