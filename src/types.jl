@@ -10,6 +10,7 @@ struct Config
     make_sysimage::Bool
     no_test::Vector{String}
     packagecompiler_installation_command::String
+    parent_image::String
     pkgs::Vector{Dict{Symbol,String}}
     precompile_execution_env_vars::Dict{String, String}
     simplecontainergenerator_installation_command::String
@@ -36,6 +37,7 @@ end
                             String[],
                         packagecompiler_installation_command::String =
                             _default_packagecompiler_installation_command(),
+                        parent_image::String = _default_docker_parent_image(),
                         precompile_execution_env_vars =
                             _default_precompile_execution_env_vars(),
                         simplecontainergenerator_installation_command::String =
@@ -53,6 +55,7 @@ end
                     make_sysimage,
                     no_test,
                     packagecompiler_installation_command,
+                    parent_image,
                     pkgs,
                     precompile_execution_env_vars,
                     simplecontainergenerator_installation_command,

@@ -12,8 +12,9 @@ end
 @inline function _generate_dockerfile_content(config::Config)
     julia_url, asc_url = _get_julia_url(config)
     apt_install = _generate_apt_install_command(config)
+    parent_image = config.parent_image
     dockerfile_lines = String[
-        "FROM ubuntu:latest",
+        "FROM $(parent_image)",
 
         "ENV DEBIAN_FRONTEND noninteractive",
 
