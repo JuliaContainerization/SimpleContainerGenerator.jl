@@ -21,7 +21,7 @@ end
                         #
                         additional_apt::AbstractVector{<:AbstractString} =
                             String[],
-                        default_apt::AbstractVector{<:AbstractString} =
+                        override_default_apt::AbstractVector{<:AbstractString} =
                             _default_apt(),
                         #
                         exclude_packages_from_sysimage =
@@ -43,7 +43,7 @@ end
                         wrapper_script_env_vars =
                             _default_wrapper_script_env_vars())
     apt = Vector{String}(undef, 0)
-    append!(apt, default_apt)
+    append!(apt, override_default_apt)
     append!(apt, additional_apt)
     unique!(apt)
     config = Config(apt,

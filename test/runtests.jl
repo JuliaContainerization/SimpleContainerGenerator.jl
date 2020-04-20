@@ -41,7 +41,7 @@ import Random: randstring
     end
 
     @testset "docker.jl" begin
-        @test SimpleContainerGenerator._generate_apt_install_command(SimpleContainerGenerator.Config(; default_apt = String[])) == ""
+        @test SimpleContainerGenerator._generate_apt_install_command(SimpleContainerGenerator.Config(; override_default_apt = String[])) == ""
     end
 
     @testset "julia.jl" begin
