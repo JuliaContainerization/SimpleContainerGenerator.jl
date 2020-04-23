@@ -29,8 +29,7 @@ jobs:
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
       - run: julia --project -e 'import SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master", ), (name = "PredictMDExtra", rev = "master", ), (name = "PredictMDFull", rev = "master", ), (name = "UnicodePlots", version = "1.2.0 - *", ),]; no_test = String["UnicodePlots"];  SimpleContainerGenerator.create_dockerfile(pkgs; no_test = no_test)'
-      - if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
-        env:
+      - env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,7 +38,5 @@ jobs:
          echo ${{ secrets.GITHUB_TOKEN }} | docker --config ~/.dockerconfig2 login docker.pkg.github.com -u bcbi --password-stdin
       - run: docker build -t dilumaluthge/predictmd -t docker.pkg.github.com/bcbi/simplecontainergenerator.jl/predictmd .
       - run: docker run dilumaluthge/predictmd "JULIA_DEBUG=all PREDICTMD_TEST_GROUP=all PREDICTMD_TEST_PLOTS=true /usr/bin/julia -e 'import Pkg; Pkg.test(string(:PredictMDExtra)); Pkg.test(string(:PredictMDFull)); Pkg.test(string(:PredictMD))'"
-      - if: success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
-        run: |
-         docker --config ~/.dockerconfig1 push dilumaluthge/predictmd
-         docker --config ~/.dockerconfig2 push docker.pkg.github.com/bcbi/simplecontainergenerator.jl/predictmd
+      - run: docker --config ~/.dockerconfig1 push dilumaluthge/predictmd
+      - run: docker --config ~/.dockerconfig2 push docker.pkg.github.com/bcbi/simplecontainergenerator.jl/predictmd
