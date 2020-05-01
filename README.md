@@ -29,7 +29,7 @@ mkpath("my_image_name")
 cd("my_image_name")
 
 pkgs = [
-    "Foo",
+    "Foo", # Replace Foo, Bar, Baz, etc. with the names of actual packages that you want to use
     "Bar",
     "Baz",
 ]
@@ -47,7 +47,7 @@ mkpath("my_image_name")
 cd("my_image_name")
 
 pkgs = [
-    (name = "Foo",),
+    (name = "Foo",), # Replace Foo, Bar, Baz, etc. with the names of actual packages that you want to use
     (name = "Bar",),
     (name = "Baz",),
 ]
@@ -65,8 +65,8 @@ mkpath("my_image_name")
 cd("my_image_name")
 
 pkgs = [
-    (name = "Foo", version = "1.2.3",),
-    (name = "Bar", version = "4.5.6",),
+    (name = "Foo", version = "1.2.3",), # Replace Foo, Bar, Baz, etc. with the names of actual packages that you want to use
+    (name = "Bar", version = "4.5.6",), # and replace the version numbers with actual version numbers for the packages
     (name = "Baz", version = "7.8.9",),
 ]
 
@@ -83,9 +83,9 @@ mkpath("my_image_name")
 cd("my_image_name")
 
 pkgs = [
-    (name = "Foo", version = "1.2.3",),
-    (name = "Bar", version = "4.5.6",),
-    (name = "Baz", rev     = "master",),
+    (name = "Foo", version = "1.2.3",), # Replace Foo, Bar, Baz, etc. with the names of actual packages that you want to use
+    (name = "Bar", version = "4.5.6",), # and replace the version numbers with actual version numbers for the packages
+    (name = "Baz", rev     = "master",), # and replace "master" with the name of the branch you want to use
 ]
 
 SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
