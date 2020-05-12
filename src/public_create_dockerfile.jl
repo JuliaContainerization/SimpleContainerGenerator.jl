@@ -8,6 +8,7 @@ const _create_dockerfile_kwargs_docstring = """
 - `julia_version::Union{String, VersionNumber}`
 - `make_sysimage::Bool`
 - `no_test::Vector{String}`
+- `parent_image::String`
 
 ### Advanced Keyword Arguments
 - `override_default_apt::Vector{String}`

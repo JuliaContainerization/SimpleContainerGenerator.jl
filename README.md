@@ -33,8 +33,12 @@ pkgs = [
     "Bar",
     "Baz",
 ]
+julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
+SimpleContainerGenerator.create_dockerfile(pkgs,
+                                           pwd();
+                                           julia_version = julia_version)
+
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
 
@@ -51,8 +55,12 @@ pkgs = [
     (name = "Bar",),
     (name = "Baz",),
 ]
+julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
+SimpleContainerGenerator.create_dockerfile(pkgs,
+                                           pwd();
+                                           julia_version = julia_version)
+
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
 
@@ -69,8 +77,12 @@ pkgs = [
     (name = "Bar", version = "4.5.6",), # and replace the version numbers with actual version numbers for the packages
     (name = "Baz", version = "7.8.9",),
 ]
+julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
+SimpleContainerGenerator.create_dockerfile(pkgs,
+                                           pwd();
+                                           julia_version = julia_version)
+
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
 
@@ -87,8 +99,90 @@ pkgs = [
     (name = "Bar", version = "4.5.6",), # and replace the version numbers with actual version numbers for the packages
     (name = "Baz", rev     = "master",), # and replace "master" with the name of the branch you want to use
 ]
+julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs, pwd(); julia_version = v"1.4.0")
+SimpleContainerGenerator.create_dockerfile(pkgs,
+                                           pwd();
+                                           julia_version = julia_version)
+
+run(`docker build -t my_docker_username/my_image_name .`)
+```
+
+### Example 5
+
+```julia
+import SimpleContainerGenerator
+
+mkpath("my_image_name")
+cd("my_image_name")
+
+pkgs = [
+    "Foo", # Replace Foo, Bar, Baz, etc. with the names of actual packages that you want to use
+    "Bar",
+    "Baz",
+]
+no_test = [
+    "Foo", # Replace Foo, etc. with the names of actual packages
+    ]
+exclude_packages_from_sysimage = [
+    "Bar", # Replace Bar, etc. with the names of actual packages
+    ]
+julia_version = v"1.4.0"
+
+SimpleContainerGenerator.create_dockerfile(pkgs,
+                                           pwd();
+                                           julia_version = julia_version,
+                                           no_test = no_test,
+                                           exclude_packages_from_sysimage = exclude_packages_from_sysimage)
+
+run(`docker build -t my_docker_username/my_image_name .`)
+```
+
+### Example 6
+
+```julia
+import SimpleContainerGenerator
+
+mkpath("my_image_name")
+cd("my_image_name")
+
+pkgs = [
+    "Foo", # Replace Foo, Bar, Baz, etc. with the names of actual packages that you want to use
+    "Bar",
+    "Baz",
+]
+julia_version = v"1.4.0"
+parent_image = "ubuntu:latest"
+
+SimpleContainerGenerator.create_dockerfile(pkgs,
+                                           pwd();
+                                           julia_version = julia_version,
+                                           parent_image = parent_image)
+
+run(`docker build -t my_docker_username/my_image_name .`)
+```
+
+### Example 7
+
+```julia
+import SimpleContainerGenerator
+
+mkpath("my_image_name")
+cd("my_image_name")
+
+pkgs = [
+    "Foo", # Replace Foo, Bar, Baz, etc. with the names of actual packages that you want to use
+    "Bar",
+    "Baz",
+]
+julia_version = v"1.4.0"
+parent_image = "nvidia/cuda:latest"
+
+SimpleContainerGenerator.create_dockerfile(pkgs,
+                                           pwd();
+                                           julia_version = julia_version,
+                                           parent_image = parent_image)
+
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
 
