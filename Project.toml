@@ -1,7 +1,7 @@
 name = "SimpleContainerGenerator"
 uuid = "b8d349fb-717b-4aac-a9b1-e1da4219c631"
 authors = ["Dilum Aluthge"]
-version = "1.2.2"
+version = "1.2.3"
 
 [deps]
 PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
