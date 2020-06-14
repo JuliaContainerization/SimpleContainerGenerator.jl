@@ -200,7 +200,6 @@ run(`docker build -t my_docker_username/my_image_name .`)
 
 ## Related Packages
 1. [PackageCompiler.jl](https://github.com/JuliaLang/PackageCompiler.jl)
-2. [PackageCompilerX.jl](https://github.com/JuliaLang/PackageCompilerX.jl)
 
 ## Acknowledgements
 
