@@ -1,8 +1,8 @@
-@inline function _get_julia_url(config::Config)
+function _get_julia_url(config::Config)
     return _get_julia_url(config.julia_version)
 end
 
-@inline function _get_julia_url(version::AbstractString)
+function _get_julia_url(version::AbstractString)
     if version == "nightly"
         julia_url = "https://julialangnightlies-s3.julialang.org/bin/linux/x64/julia-latest-linux64.tar.gz"
         asc_url = "$(julia_url).asc"
@@ -12,7 +12,7 @@ end
     end
 end
 
-@inline function _get_julia_url(version::VersionNumber)
+function _get_julia_url(version::VersionNumber)
     major = version.major
     minor = version.minor
     patch = version.patch

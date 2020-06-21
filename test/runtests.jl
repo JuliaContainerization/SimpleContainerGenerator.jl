@@ -11,10 +11,18 @@ import Random: randstring
     end
 
     @testset "default_values.jl" begin
+        Test.@test SimpleContainerGenerator._default_docker_parent_image() isa AbstractString
         Test.@test SimpleContainerGenerator._default_julia_cpu_target() isa AbstractString
-        Test.@test SimpleContainerGenerator._recommended_julia_cpu_target() isa AbstractString
+        Test.@test SimpleContainerGenerator._default_julia_version() isa Union{AbstractString, VersionNumber}
+        Test.@test SimpleContainerGenerator._default_packagecompiler_installation_command() isa AbstractString
+        Test.@test SimpleContainerGenerator._default_simplecontainergenerator_installation_command() isa AbstractString
         Test.@test SimpleContainerGenerator._fastest_nonportable_julia_cpu_target() isa AbstractString
         Test.@test SimpleContainerGenerator._predictmd_apt() isa AbstractVector
+        Test.@test SimpleContainerGenerator._recommended_julia_cpu_target() isa AbstractString
+    end
+
+    @testset "pkg_dir.jl" begin
+        Test.@test SimpleContainerGenerator.pkg_dir_simplecontainergenerator() isa AbstractString
     end
 
     @testset "public.jl" begin

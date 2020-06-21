@@ -1,4 +1,4 @@
-@inline function _generate_precompile_execution_content(config::Config)
+function _generate_precompile_execution_content(config::Config)
     pkgs = config.pkgs
     no_test = config.no_test
     exclude_packages_from_sysimage = config.exclude_packages_from_sysimage

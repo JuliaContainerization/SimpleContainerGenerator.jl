@@ -1,6 +1,6 @@
 import Pkg
 
-@inline function _generate_packagecompiler_run_content(config::Config)
+function _generate_packagecompiler_run_content(config::Config)
     julia_cpu_target = config.julia_cpu_target
     make_sysimage = config.make_sysimage
     exclude_packages_from_sysimage = config.exclude_packages_from_sysimage
