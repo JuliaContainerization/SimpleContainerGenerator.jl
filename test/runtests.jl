@@ -27,13 +27,18 @@ import Random: randstring
         for test_case in test_cases
             SimpleContainerGenerator.with_temp_dir() do tmp_dir
                 @test !isfile("Dockerfile")
-                SimpleContainerGenerator.create_dockerfile(test_case)
+                tests_must_pass = String["Crayons"]
+                SimpleContainerGenerator.create_dockerfile(test_case;
+                                                           tests_must_pass = tests_must_pass)
                 @test isfile("Dockerfile")
             end
             for make_sysimage in [true, false]
                 SimpleContainerGenerator.with_temp_dir() do tmp_dir
                     @test !isfile("Dockerfile")
-                    SimpleContainerGenerator.create_dockerfile(test_case; make_sysimage = make_sysimage)
+                    tests_must_pass = String["Crayons"]
+                    SimpleContainerGenerator.create_dockerfile(test_case;
+                                                               make_sysimage = make_sysimage,
+                                                               tests_must_pass = tests_must_pass)
                     @test isfile("Dockerfile")
                 end
             end
@@ -56,7 +61,10 @@ import Random: randstring
                 for make_sysimage in [true, false]
                     SimpleContainerGenerator.with_temp_dir() do tmp_dir
                         @test !isfile("Dockerfile")
-                        SimpleContainerGenerator.create_dockerfile(pkgs; make_sysimage = make_sysimage)
+                        tests_must_pass = String["Example"]
+                        SimpleContainerGenerator.create_dockerfile(pkgs;
+                                                                   make_sysimage = make_sysimage,
+                                                                   tests_must_pass = tests_must_pass)
                         @test isfile("Dockerfile")
                         image = lowercase("test_simplecontainergenerator_runtests_$(randstring(16))")
                         p_build = run(`docker build -t $(image) .`)
