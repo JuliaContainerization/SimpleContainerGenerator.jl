@@ -14,6 +14,7 @@ struct Config
     pkgs::Vector{Dict{Symbol,String}}
     precompile_execution_env_vars::Dict{String, String}
     simplecontainergenerator_installation_command::String
+    tests_must_pass::Vector{String}
     wrapper_script_env_vars::Dict{String, String}
 end
 
@@ -42,6 +43,8 @@ end
                             _default_precompile_execution_env_vars(),
                         simplecontainergenerator_installation_command::String =
                             _default_simplecontainergenerator_installation_command(),
+                        tests_must_pass =
+                            String[],
                         wrapper_script_env_vars =
                             _default_wrapper_script_env_vars())
     apt = Vector{String}(undef, 0)
@@ -59,6 +62,7 @@ end
                     pkgs,
                     precompile_execution_env_vars,
                     simplecontainergenerator_installation_command,
+                    tests_must_pass,
                     wrapper_script_env_vars)
     return config
 end

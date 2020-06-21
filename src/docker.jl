@@ -9,9 +9,20 @@
     end
 end
 
+@inline function _generate_tests_must_pass_commands(config::Config)::Vector{String}
+    tests_must_pass = config.tests_must_pass
+    all_commands = String[]
+    for pkg_name in tests_must_pass
+        push!(all_commands,
+              "RUN cd /tmp && JULIA_DEBUG=all /usr/bin/julia -e 'import Pkg; Pkg.test(string(:$(pkg_name)))'")
+    end
+    return all_commands
+end
+
 @inline function _generate_dockerfile_content(config::Config)
     julia_url, asc_url = _get_julia_url(config)
     apt_install = _generate_apt_install_command(config)
+    tests_must_pass_commands = _generate_tests_must_pass_commands(config)
     parent_image = config.parent_image
     dockerfile_lines = String[
         "FROM $(parent_image)",
@@ -93,6 +104,8 @@ end
         "RUN cd /tmp && SIMPLECONTAINERGENERATOR_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_julia /opt/simplecontainergenerator_containers/packagecompiler_run.jl",
         "RUN cd /tmp && JULIA_DEBUG=all /usr/bin/no_sysimage_julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(; verbose=true)'",
         "RUN cd /tmp && JULIA_DEBUG=all /usr/bin/julia -e 'import InteractiveUtils; InteractiveUtils.versioninfo(; verbose=true)'",
+
+        tests_must_pass_commands...,
 
         "RUN rm -rf /opt/bin/julia/compiled",
         "RUN rm -rf /opt/etc/julia/compiled",
