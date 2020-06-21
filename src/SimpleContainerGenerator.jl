@@ -4,6 +4,7 @@ import PackageCompiler
 import Pkg
 import UUIDs
 
+include("types_config.jl")
 include("types.jl")
 
 include("public.jl")
@@ -12,6 +13,7 @@ include("public_create_dockerfile.jl")
 
 include("assert.jl")
 include("backups_of_simplecontainergenerator.jl")
+include("config_to_template.jl")
 include("default_values.jl")
 include("docker.jl")
 include("generate_helper_files.jl")
