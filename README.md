@@ -11,8 +11,6 @@ These container images are especially useful for using Julia packages on systems
 
 When building the Docker images, make sure that Docker Desktop is set to use at least 4 GB of memory (RAM). If you run into errors, you should try further increasing the amount of available memory.
 
-SimpleContainerGenerator generates container images for containerization platforms such as Docker, Singularity, etc. If you instead want to generate virtual machine (VM) images, see [SimpleVirtualMachineGenerator](https://github.com/bcbi/SimpleVirtualMachineGenerator.jl).
-
 ## Installation
 
 ```julia
@@ -204,7 +202,6 @@ run(`docker build -t my_docker_username/my_image_name .`)
 
 ## Related Packages
 1. [PackageCompiler.jl](https://github.com/JuliaLang/PackageCompiler.jl)
-2. [SimpleVirtualMachineGenerator.jl](https://github.com/bcbi/SimpleVirtualMachineGenerator.jl)
 
 ## Acknowledgements
 
