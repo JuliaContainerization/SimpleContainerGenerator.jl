@@ -1,4 +1,4 @@
-@inline function _generate_backupsofsimplecontainergenerator_content_1(config::Config)
+function _generate_backupsofsimplecontainergenerator_content_1(config::Config)
     simplecontainergenerator_installation_command = config.simplecontainergenerator_installation_command
     lines = String[
         "empty!(Base.DEPOT_PATH)",
@@ -10,7 +10,7 @@
     return content
 end
 
-@inline function _generate_backupsofsimplecontainergenerator_content_2(config::Config)
+function _generate_backupsofsimplecontainergenerator_content_2(config::Config)
     packagecompiler_installation_command = config.packagecompiler_installation_command
     lines = String[
         "empty!(Base.DEPOT_PATH)",

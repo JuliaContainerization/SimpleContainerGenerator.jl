@@ -1,6 +1,6 @@
 import Pkg
 
-@inline function _generate_packagecompiler_install_content(config::Config)
+function _generate_packagecompiler_install_content(config::Config)
     packagecompiler_installation_command = config.packagecompiler_installation_command
     lines = String[
         "empty!(Base.DEPOT_PATH)",

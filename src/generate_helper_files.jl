@@ -1,4 +1,4 @@
-@inline function _generate_julia_command(use_sysimage::Bool)
+function _generate_julia_command(use_sysimage::Bool)
     if use_sysimage
         return "/opt/bin/julia -J/opt/simplecontainergenerator_containers/sysimage/SimpleContainerGeneratorSysimage.so"
     else
@@ -6,16 +6,16 @@
     end
 end
 
-@inline function _generate_do_not_use_sysimage_julia_script_content(config::Config = Config())
+function _generate_do_not_use_sysimage_julia_script_content(config::Config = Config())
     return _generate_julia_script_content(false, config)
 end
 
-@inline function _generate_use_sysimage_julia_script_content(config::Config = Config())
+function _generate_use_sysimage_julia_script_content(config::Config = Config())
     make_sysimage = config.make_sysimage
     return _generate_julia_script_content(make_sysimage, config)
 end
 
-@inline function _generate_julia_script_content(use_sysimage::Bool,
+function _generate_julia_script_content(use_sysimage::Bool,
                                                         config::Config = Config())
     julia_command = _generate_julia_command(use_sysimage)
     wrapper_script_env_vars = config.wrapper_script_env_vars
@@ -33,7 +33,7 @@ end
     return content
 end
 
-@inline function _generate_global_startup_file_content(config::Config = Config())
+function _generate_global_startup_file_content(config::Config = Config())
     lines = String[
         "_simplecontainergenerator_containers_temp_depot_tmpdir = mktempdir()",
         "atexit(() -> rm(_simplecontainergenerator_containers_temp_depot_tmpdir; force = true, recursive = true))",

@@ -1,7 +1,7 @@
 # SimpleContainerGenerator
 
-[![Build Status](https://travis-ci.com/bcbi/SimpleContainerGenerator.jl.svg?branch=master)](https://travis-ci.com/bcbi/SimpleContainerGenerator.jl/branches)
-[![Codecov](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl)
+[![Build Status](https://github.com/bcbi/SimpleContainerGenerator.jl/workflows/CI/badge.svg)](https://github.com/bcbi/SimpleContainerGenerator.jl/actions)
+[![Coverage](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl)
 
 SimpleContainerGenerator automates the process of creating container images for using Julia packages.
 
@@ -20,6 +20,8 @@ Pkg.add("SimpleContainerGenerator")
 
 ## Examples
 
+In order to run these examples, you will need to have Docker installed on your computer.
+
 ### Example 1
 
 ```julia
@@ -35,9 +37,9 @@ pkgs = [
 ]
 julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs,
-                                           pwd();
-                                           julia_version = julia_version)
+SimpleContainerGenerator.create_dockerfile(pkgs;
+                                           julia_version = julia_version,
+                                           output_directory = pwd())
 
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
@@ -57,9 +59,9 @@ pkgs = [
 ]
 julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs,
-                                           pwd();
-                                           julia_version = julia_version)
+SimpleContainerGenerator.create_dockerfile(pkgs;
+                                           julia_version = julia_version,
+                                           output_directory = pwd())
 
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
@@ -79,9 +81,9 @@ pkgs = [
 ]
 julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs,
-                                           pwd();
-                                           julia_version = julia_version)
+SimpleContainerGenerator.create_dockerfile(pkgs;
+                                           julia_version = julia_version,
+                                           output_directory = pwd())
 
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
@@ -101,9 +103,9 @@ pkgs = [
 ]
 julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs,
-                                           pwd();
-                                           julia_version = julia_version)
+SimpleContainerGenerator.create_dockerfile(pkgs;
+                                           julia_version = julia_version,
+                                           output_directory = pwd())
 
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
@@ -129,11 +131,11 @@ exclude_packages_from_sysimage = [
     ]
 julia_version = v"1.4.0"
 
-SimpleContainerGenerator.create_dockerfile(pkgs,
-                                           pwd();
+SimpleContainerGenerator.create_dockerfile(pkgs;
                                            julia_version = julia_version,
                                            no_test = no_test,
-                                           exclude_packages_from_sysimage = exclude_packages_from_sysimage)
+                                           exclude_packages_from_sysimage = exclude_packages_from_sysimage,
+                                           output_directory = pwd())
 
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
@@ -154,9 +156,9 @@ pkgs = [
 julia_version = v"1.4.0"
 parent_image = "ubuntu:latest"
 
-SimpleContainerGenerator.create_dockerfile(pkgs,
-                                           pwd();
+SimpleContainerGenerator.create_dockerfile(pkgs;
                                            julia_version = julia_version,
+                                           output_directory = pwd(),
                                            parent_image = parent_image)
 
 run(`docker build -t my_docker_username/my_image_name .`)
@@ -178,9 +180,9 @@ pkgs = [
 julia_version = v"1.4.0"
 parent_image = "nvidia/cuda:latest"
 
-SimpleContainerGenerator.create_dockerfile(pkgs,
-                                           pwd();
+SimpleContainerGenerator.create_dockerfile(pkgs;
                                            julia_version = julia_version,
+                                           output_directory = pwd(),
                                            parent_image = parent_image)
 
 run(`docker build -t my_docker_username/my_image_name .`)
@@ -203,4 +205,4 @@ run(`docker build -t my_docker_username/my_image_name .`)
 
 ## Acknowledgements
 
-- This work was supported in part by National Institutes of Health grants U54GM115677, R01LM011963, and R25MH116440. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
+- This work was supported in part by National Institutes of Health grants R01LM011963, R25MH116440, and U54GM115677 and National Science Foundation award 2027892. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health or the National Science Foundation.

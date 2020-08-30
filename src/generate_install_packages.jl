@@ -1,6 +1,6 @@
 import Pkg
 
-@inline function _to_packagespec_string(pkg::Dict{Symbol, String})
+function _to_packagespec_string(pkg::Dict{Symbol, String})
     kwargs_string = ""
     for (key, value) in pkg
         kwargs_string *= "$(key) = \"$(value)\", "
@@ -8,7 +8,7 @@ import Pkg
     return "Pkg.PackageSpec(; $(kwargs_string))"
 end
 
-@inline function _to_packagespec_string(pkgs::AbstractVector{<:AbstractDict})
+function _to_packagespec_string(pkgs::AbstractVector{<:AbstractDict})
     num_pkgs = length(pkgs)
     pkg_strings = Vector{String}(undef, num_pkgs)
     for i = 1:num_pkgs
@@ -17,7 +17,7 @@ end
     return "Pkg.Types.PackageSpec[$(join(pkg_strings, ", "))]"
 end
 
-@inline function _generate_install_packages_content(config::Config)
+function _generate_install_packages_content(config::Config)
     pkgs = config.pkgs
     no_test = config.no_test
     exclude_packages_from_sysimage = config.exclude_packages_from_sysimage
