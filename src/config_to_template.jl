@@ -84,7 +84,7 @@ function Template(config::Config)
     push!(step_list_vector, EnvStep("PROMPT_COMMAND", "\"echo -n [\$()]\""))
     #
     push!(step_list_vector, RunStep("mkdir -p /tmp/simplecontainergenerator_containers-julia-gpg-key"))
-    push!(step_list_vector, RunStep("cd /tmp/simplecontainergenerator_containers-julia-gpg-key && curl https://julialang.org/juliareleases.asc --output juliareleases.asc"))
+    push!(step_list_vector, RunStep("cd /tmp/simplecontainergenerator_containers-julia-gpg-key && curl https://julialang.org/assets/juliareleases.asc --output juliareleases.asc"))
     push!(step_list_vector, RunStep("cd /tmp/simplecontainergenerator_containers-julia-gpg-key && gpg --import juliareleases.asc"))
     push!(step_list_vector, RunStep("rm -rf /tmp/simplecontainergenerator_containers-julia-gpg-key"))
     #

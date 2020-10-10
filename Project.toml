@@ -1,7 +1,7 @@
 name = "SimpleContainerGenerator"
 uuid = "b8d349fb-717b-4aac-a9b1-e1da4219c631"
 authors = ["Dilum Aluthge"]
-version = "2.0.0"
+version = "2.0.1"
 
 [deps]
 PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
@@ -9,7 +9,7 @@ Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [compat]
-PackageCompiler = "1.1.1"
+PackageCompiler = "1.2.2"
 julia = "1.4"
 
 [extras]

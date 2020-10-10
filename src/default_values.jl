@@ -4,7 +4,7 @@ _default_docker_parent_image() = "ubuntu:latest"
 
 _default_julia_version() = v"1.4.0"
 
-_default_packagecompiler_installation_command() = "import Pkg; Pkg.add(Pkg.PackageSpec(name = \"PackageCompiler\", version = \"1.1.1 - 1\"));"
+_default_packagecompiler_installation_command() = "import Pkg; Pkg.add(Pkg.PackageSpec(name = \"PackageCompiler\", version = \"1.2.2 - 1\"));"
 
 _default_simplecontainergenerator_installation_command() = "import Pkg; Pkg.add(Pkg.PackageSpec(name = \"SimpleContainerGenerator\"));"
 
