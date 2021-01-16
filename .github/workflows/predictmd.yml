@@ -28,7 +28,7 @@ jobs:
           arch: ${{ matrix.arch }}
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
-      - run: julia --project -e 'import SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master", ), (name = "PredictMDExtra", rev = "master", ), (name = "PredictMDFull", rev = "master", ), (name = "UnicodePlots", version = "1.2.0 - *", ),]; no_test = String["UnicodePlots"]; parent_image = "nvidia/cuda"; tests_must_pass = String["PredictMD", "PredictMDExtra", "PredictMDFull"]; SimpleContainerGenerator.create_dockerfile(pkgs; no_test = no_test, parent_image = parent_image, tests_must_pass = tests_must_pass)'
+      - run: julia --project -e 'import SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master", ), (name = "PredictMDExtra", rev = "master", ), (name = "PredictMDFull", rev = "master", ), (name = "UnicodePlots", version = "1.2.0 - *", ),]; no_test = String["UnicodePlots"]; parent_image = "nvidia/cuda:11.2.0-devel-ubuntu20.04"; tests_must_pass = String["PredictMD", "PredictMDExtra", "PredictMDFull"]; SimpleContainerGenerator.create_dockerfile(pkgs; no_test = no_test, parent_image = parent_image, tests_must_pass = tests_must_pass)'
       - if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
