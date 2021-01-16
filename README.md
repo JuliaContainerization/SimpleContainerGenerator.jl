@@ -178,7 +178,7 @@ pkgs = [
     "Baz",
 ]
 julia_version = v"1.4.0"
-parent_image = "nvidia/cuda:latest"
+parent_image = "nvidia/cuda:11.2.0-devel-ubuntu20.04"
 
 SimpleContainerGenerator.create_dockerfile(pkgs;
                                            julia_version = julia_version,

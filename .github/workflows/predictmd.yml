@@ -6,9 +6,7 @@ on:
       - master
       - staging
       - trying
-  schedule:
-    - cron: '00 00,12 * * *'
-
+  workflow_dispatch:
 jobs:
   PredictMD_docker:
     runs-on: ${{ matrix.os }}
@@ -28,20 +26,20 @@ jobs:
           arch: ${{ matrix.arch }}
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
-      - run: julia --project -e 'import SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master", ), (name = "PredictMDExtra", rev = "master", ), (name = "PredictMDFull", rev = "master", ), (name = "UnicodePlots", version = "1.2.0 - *", ),]; no_test = String["UnicodePlots"]; parent_image = "nvidia/cuda"; tests_must_pass = String["PredictMD", "PredictMDExtra", "PredictMDFull"]; SimpleContainerGenerator.create_dockerfile(pkgs; no_test = no_test, parent_image = parent_image, tests_must_pass = tests_must_pass)'
+      - run: julia --project -e 'import SimpleContainerGenerator; pkgs = [(name = "PredictMD", rev = "master", ), (name = "PredictMDExtra", rev = "master", ), (name = "PredictMDFull", rev = "master", ), (name = "UnicodePlots", version = "1.2.0 - *", ),]; no_test = String["UnicodePlots"]; parent_image = "nvidia/cuda:11.2.0-devel-ubuntu20.04"; tests_must_pass = String["PredictMD", "PredictMDExtra", "PredictMDFull"]; SimpleContainerGenerator.create_dockerfile(pkgs; no_test = no_test, parent_image = parent_image, tests_must_pass = tests_must_pass)'
       - if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker --config ~/.dockerconfig1 login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-      - if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
+      - if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker --config ~/.dockerconfig2 login docker.pkg.github.com -u bcbi --password-stdin
       - run: docker build -t dilumaluthge/predictmd -t docker.pkg.github.com/bcbi/simplecontainergenerator.jl/predictmd .
       - run: docker run dilumaluthge/predictmd "JULIA_DEBUG=all PREDICTMD_TEST_GROUP=all PREDICTMD_TEST_PLOTS=true /usr/bin/julia -e 'import Pkg; Pkg.test(string(:PredictMDExtra)); Pkg.test(string(:PredictMDFull)); Pkg.test(string(:PredictMD))'"
-      - if: success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
+      - if: success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: docker --config ~/.dockerconfig1 push dilumaluthge/predictmd
-      - if: success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'schedule')
+      - if: success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: docker --config ~/.dockerconfig2 push docker.pkg.github.com/bcbi/simplecontainergenerator.jl/predictmd
         continue-on-error: true
