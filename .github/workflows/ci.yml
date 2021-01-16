@@ -7,7 +7,6 @@ on:
       - staging
       - trying
   workflow_dispatch:
-
 jobs:
   CI:
     runs-on: ${{ matrix.os }}
