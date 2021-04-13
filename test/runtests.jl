@@ -4,6 +4,12 @@ using Test
 import Pkg
 import Random: randstring
 
+if get(ENV, "JULIA_VERSION", nothing) == "nightly"
+    const JULIA_VERSION = "nightly"
+else
+    const JULIA_VERSION = SimpleContainerGenerator._default_julia_version()
+end
+
 @testset "SimpleContainerGenerator.jl" begin
     @testset "assert.jl" begin
         Test.@test SimpleContainerGenerator.always_assert(true, "") == nothing
@@ -71,6 +77,7 @@ import Random: randstring
                         @test !isfile("Dockerfile")
                         tests_must_pass = String["Example"]
                         SimpleContainerGenerator.create_dockerfile(pkgs;
+                                                                   julia_version = JULIA_VERSION, 
                                                                    make_sysimage = make_sysimage,
                                                                    tests_must_pass = tests_must_pass)
                         @test isfile("Dockerfile")
