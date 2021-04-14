@@ -2,7 +2,7 @@ import PackageCompiler
 
 _default_docker_parent_image() = "ubuntu:latest"
 
-_default_julia_version() = v"1.4.0"
+_default_julia_version() = VersionNumber(VERSION.major, VERSION.minor, VERSION.patch)
 
 _default_packagecompiler_installation_command() = "import Pkg; Pkg.add(Pkg.PackageSpec(name = \"PackageCompiler\", version = \"1.2.2 - 1\"));"
 
