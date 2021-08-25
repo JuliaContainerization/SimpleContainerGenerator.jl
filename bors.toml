@@ -6,11 +6,6 @@ status = [
     "codecov/patch",
     "codecov/project",
     "continuous-integration/travis-ci/push",
-    # "VersionVigilante",
 ]
 
 timeout_sec = 36000
-
-[committer]
-name = "BCBI Bot"
-email = "bcbi-git@brown.edu"
