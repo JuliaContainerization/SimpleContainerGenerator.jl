@@ -217,7 +217,7 @@ SimpleContainerGenerator.create_dockerfile(pkgs;
                                            registry_urls = registry_urls)
 
 # Note: you may need to `ssh-add` your key before this command will work.
-run(`docker build --ssh default -t my_docker_username/my_image_name .`)
+run(`DOCKER_BUILDKIT=1 docker build --ssh default -t my_docker_username/my_image_name .`)
 ```
 
 ## Docker cheatsheet
