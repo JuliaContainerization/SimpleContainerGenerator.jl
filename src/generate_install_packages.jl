@@ -17,6 +17,15 @@ function _to_packagespec_string(pkgs::AbstractVector{<:AbstractDict})
     return "Pkg.Types.PackageSpec[$(join(pkg_strings, ", "))]"
 end
 
+function _to_registries_string(registry_urls::Vector{String})
+    registries = String[]
+    for registry in registry_urls
+        push!(registries, "Pkg.Registry.add(Pkg.RegistrySpec(url = \"" * registry * "\"))")
+    end
+    isempty(registries) || push!(registries, "Pkg.Registry.add(Pkg.RegistrySpec(url = \"https://github.com/JuliaRegistries/General.git\"))")
+    return registries
+end
+
 function _generate_install_packages_content(config::Config)
     pkgs = config.pkgs
     no_test = config.no_test
@@ -30,8 +39,10 @@ function _generate_install_packages_content(config::Config)
         end
     end
     pkgs_string = _to_packagespec_string(pkgs)
+    registries = _to_registries_string(config.registry_urls)
     lines = String[
         "import Pkg",
+        registries...,
         "Pkg.add($(pkgs_string))",
         "for name in $(pkg_names_to_test) # pkg_names_to_test",
         "Pkg.add(name)",

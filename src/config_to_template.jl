@@ -23,6 +23,7 @@ function Template(config::Config)
     apt_install = _generate_apt_install_command(config)
     julia_url, asc_url = _get_julia_url(config)
     parent_image = config.parent_image
+    registry_urls = config.registry_urls
     tests_must_pass_commands = _generate_tests_must_pass_commands(config)
 
     file_list_vector = File[
@@ -149,7 +150,11 @@ function Template(config::Config)
     push!(step_list_vector, RunStep("chmod 555 /usr/bin/julia"))
     push!(step_list_vector, RunStep("chmod 555 /usr/bin/no_sysimage_julia"))
     #
-    push!(step_list_vector, RunStep("cd /tmp; JULIA_DEBUG=all SIMPLECONTAINERGENERATOR_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_julia /opt/simplecontainergenerator_containers/install_packages.jl"))
+    if any(map(r->occursin("git@github", r), registry_urls))
+        push!(step_list_vector, RunStep("mkdir -p -m 600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts"))
+    end
+    mount_ssh = any(map(r->occursin("git@", r), registry_urls)) ? "--mount=type=ssh " : ""
+    push!(step_list_vector, RunStep(mount_ssh * "cd /tmp; JULIA_DEBUG=all SIMPLECONTAINERGENERATOR_CONTAINER_NO_TEMP_DEPOT=\"true\" /usr/bin/no_sysimage_julia /opt/simplecontainergenerator_containers/install_packages.jl"))
     #
     push!(step_list_vector, RunStep("cd /tmp; JULIA_DEBUG=all /opt/bin/julia /opt/simplecontainergenerator_containers/backups_of_simplecontainergenerator_1.jl"))
     push!(step_list_vector, RunStep("cd /tmp; JULIA_DEBUG=all /opt/bin/julia /opt/simplecontainergenerator_containers/backups_of_simplecontainergenerator_2.jl"))
