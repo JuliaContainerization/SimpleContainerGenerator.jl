@@ -214,7 +214,8 @@ julia_version = v"1.4.0"
 SimpleContainerGenerator.create_dockerfile(pkgs;
                                            julia_version = julia_version,
                                            output_directory = pwd(),
-                                           registry_urls = registry_urls)
+                                           registry_urls = registry_urls,
+                                           mount_ssh = true) # Only required if using the ssh method
 
 # Note: you may need to `ssh-add` your key before this command will work.
 run(`DOCKER_BUILDKIT=1 docker build --ssh default -t my_docker_username/my_image_name .`)
