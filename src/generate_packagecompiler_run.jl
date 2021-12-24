@@ -8,7 +8,11 @@ function _generate_packagecompiler_run_content(config::Config)
         "import Pkg",
 
         "all_stdlib_uuids = collect(keys(Pkg.Types.stdlibs()))",
+        "if Base.VERSION >= v\"1.8-\"",
+        "all_stdlib_names = first.(collect(values(Pkg.Types.stdlibs())))",
+        "else",
         "all_stdlib_names = collect(values(Pkg.Types.stdlibs()))",
+        "end",
 
         "pkgnames = Vector{String}(undef, 0)",
         "for (uuid, info) in Pkg.dependencies()",
