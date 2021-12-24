@@ -37,7 +37,7 @@ function _generate_install_packages_content(config::Config)
         "Pkg.add(name)",
         "Pkg.test(name)",
         "end",
-        "if Base.VERSION >= v\"1.8\"",
+        "if Base.VERSION >= v\"1.8-\"",
         "stdlib_names = first.(collect(values(Pkg.Types.stdlibs())))",
         "else",
         "stdlib_names = collect(values(Pkg.Types.stdlibs()))",
