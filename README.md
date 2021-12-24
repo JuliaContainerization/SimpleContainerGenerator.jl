@@ -1,7 +1,7 @@
 # SimpleContainerGenerator
 
-[![Build Status](https://github.com/bcbi/SimpleContainerGenerator.jl/workflows/CI/badge.svg)](https://github.com/bcbi/SimpleContainerGenerator.jl/actions)
-[![Coverage](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/bcbi/SimpleContainerGenerator.jl)
+[![Build Status](https://github.com/JuliaContainerization/SimpleContainerGenerator.jl/workflows/CI/badge.svg)](https://github.com/JuliaContainerization/SimpleContainerGenerator.jl/actions)
+[![Coverage](https://codecov.io/gh/JuliaContainerization/SimpleContainerGenerator.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaContainerization/SimpleContainerGenerator.jl)
 
 SimpleContainerGenerator automates the process of creating container images for using Julia packages.
 
