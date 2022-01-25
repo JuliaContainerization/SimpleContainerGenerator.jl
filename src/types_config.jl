@@ -3,6 +3,8 @@ struct Config
     exclude_packages_from_sysimage::Vector{String}
     julia_cpu_target::String
     julia_version::Union{String, VersionNumber}
+    registry_urls::Vector{String}
+    mount_ssh::Bool
     make_sysimage::Bool
     no_test::Vector{String}
     packagecompiler_installation_command::String
@@ -28,6 +30,8 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                             _default_julia_cpu_target(),
                         julia_version::Union{AbstractString, VersionNumber} =
                             _default_julia_version(),
+                        registry_urls = String[],
+                        mount_ssh::Bool = false,
                         make_sysimage::Bool =
                             true,
                         no_test =
@@ -51,6 +55,8 @@ function Config(pkgs::AbstractVector{<:AbstractDict{<:Symbol,<:AbstractString}} 
                     exclude_packages_from_sysimage,
                     julia_cpu_target,
                     julia_version,
+                    registry_urls,
+                    mount_ssh,
                     make_sysimage,
                     no_test,
                     packagecompiler_installation_command,

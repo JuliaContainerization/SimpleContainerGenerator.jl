@@ -188,6 +188,39 @@ SimpleContainerGenerator.create_dockerfile(pkgs;
 run(`docker build -t my_docker_username/my_image_name .`)
 ```
 
+### Example 8
+
+```julia
+import SimpleContainerGenerator
+
+mkpath("my_image_name")
+cd("my_image_name")
+
+# Add private registries. General will always be included as a backup.
+# The first method uses your ssh credentials, whereas the second requires a
+# Personal Access Token.
+registry_urls = ["git@github.com:MyCompany/MyPrivateRegistry.git",
+                 "https://username:githubPAT@github.com/MyCompany/AnotherRegistry.git"]
+
+# Optionally, override the URL of your privately registered package. Useful if your registry
+# stores the URIs of your packages as git+ssh, but you wish to use PATs in your workflow.
+pkgs = [
+    (name = "Foo", url = "https://username:githubPAT@github.com/MyCompany/MyPackage.jl.git",),
+    (name = "Bar", ),
+    (name = "Baz", ),
+]
+julia_version = v"1.4.0"
+
+SimpleContainerGenerator.create_dockerfile(pkgs;
+                                           julia_version = julia_version,
+                                           output_directory = pwd(),
+                                           registry_urls = registry_urls,
+                                           mount_ssh = true) # Only required if using the ssh method
+
+# Note: you may need to `ssh-add` your key before this command will work.
+run(`DOCKER_BUILDKIT=1 docker build --ssh default -t my_docker_username/my_image_name .`)
+```
+
 ## Docker cheatsheet
 
 | Command | Description |
